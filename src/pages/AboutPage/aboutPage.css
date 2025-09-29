@@ -1,0 +1,229 @@
+.aboutPage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 300px;
+}
+.aboutTop {
+  width: 100%;
+  /* margin: 0px 120px 0px 120px; */
+  height: 600px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  /* padding: 5%; */
+}
+.aboutTitleImage {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: transparent;
+  
+  mix-blend-mode:multiply;
+  
+}
+.aboutTitleImage img {
+  height: 100%;
+  width: 100%;
+  object-fit: fill;
+  /* border-top-left-radius: 50px;
+  border-top-right-radius: 200px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px; */
+  filter: brightness(1)
+}
+
+.whoAreWeTitle {
+  font-size: 3rem;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 10px;
+  position: absolute;
+  top: 30%;
+  z-index: 1000;
+}
+.whoAreWeInfo {
+  font-size: 1.4rem;
+  font-weight: normal;
+  width: 50%;
+  height: fit-content;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-align: center;
+  color: #fff;
+  position: absolute;
+  top: 50%;
+  display: block;
+  align-self: center;
+  z-index: 1000;
+  padding: 0px 30px;
+}
+.aboutFactoryImages {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: space-between;
+}
+.factoryImage1,
+.factoryImage2,
+.factoryImage3 {
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 330px;
+  margin: 30px 20px;
+}
+.aboutOurStoryInfo {
+  width: 70%;
+  font-size: 20px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-align: center;
+  align-self: center;
+  color: #000;
+}
+.aboutOurStory h1{
+  font-size: 3rem;
+}
+.aboutOurStory {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 768px) {
+  .aboutPage {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+  }
+  .aboutTop {
+    width: 100%;
+    /* margin: 0px 120px 0px 120px; */
+    height: 600px;
+  
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+  }
+  .aboutTitleImage {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: transparent;
+    
+    mix-blend-mode:multiply;
+    
+  }
+  .aboutTitleImage img {
+    height: 100%;
+    width: 100%;
+    object-fit: fill;
+    /* border-top-left-radius: 50px;
+    border-top-right-radius: 200px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px; */
+    filter: brightness(1)
+  }
+  
+  .whoAreWeTitle {
+    font-size: 30px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 10px;
+    position: absolute;
+    top: 40%;
+    z-index: 1000;
+  }
+  .whoAreWeInfo {
+    font-size:12px;
+    font-weight: normal;
+    width: 60%;
+    height: fit-content;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    display: block;
+    align-self: center;
+    z-index: 1000;
+    /* padding: 0px 30px; */
+  }
+  .aboutFactoryImages {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: space-between;
+  }
+  .factoryImage1,
+  .factoryImage2,
+  .factoryImage3 {
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 200px;
+    margin: 30px 5px;
+  }
+  .aboutOurStoryInfo {
+    width: 100%;
+    padding: 0px 10px;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.6;
+    letter-spacing: normal;
+    text-align: center;
+    align-self: center;
+    color: #000;
+  }
+  .aboutOurStory h1{
+    font-size: 3rem;
+  }
+  .aboutOurStory {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}

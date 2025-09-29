@@ -1,0 +1,82 @@
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.carousel-wrapper .text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 24px;
+  text-align: center;
+  animation: typing 1s steps(40, end);
+  transition: ease-in-out;
+}
+.carousel-wrapper .text-overlay p {
+  text-align: left;
+  width: 100%;
+  height: auto;
+  font-weight: 500;
+  animation: typing 1s steps(40, end);
+  transition: ease-in-out;
+}
+.carousel-wrapper .text-overlay h1 {
+  text-align: left;
+  width: 100%;
+  font-weight: bolder;
+  font-size: 80px;
+  
+}
+@keyframes typing {
+    from {
+      translate: 30%;
+    }
+    to {
+        translate: 0%;
+    }
+  }
+
+  @media screen {
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+    }
+    
+    .carousel-wrapper .text-overlay {
+      position: absolute;
+      top: 50%;
+      left: 40%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 24px;
+      text-align: center;
+      animation: typing 1s steps(40, end);
+      transition: ease-in-out;
+    }
+    .carousel-wrapper .text-overlay p {
+      text-align: left;
+      width: 100%;
+      height: auto;
+      font-weight: 500;
+      animation: typing 1s steps(40, end);
+      transition: ease-in-out;
+    }
+    .carousel-wrapper .text-overlay h1 {
+      text-align: left;
+      width: 90%;
+      font-weight: bolder;
+      font-size: 80px;
+      
+    }
+    @keyframes typing {
+        from {
+          translate: 30%;
+        }
+        to {
+            translate: 0%;
+        }
+      }
+    
+  }
