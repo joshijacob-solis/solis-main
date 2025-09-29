@@ -41,7 +41,7 @@ export default function MainModal(props) {
   };
   return (
     <div className="offer-modal">
-      <Button
+      {/* <Button
         sx={{
           position: "fixed",
           bottom: "50%",
@@ -57,7 +57,7 @@ export default function MainModal(props) {
           style={{ width: "100%", height: "100%", objectFit: "contain" }}
           alt="offer"
         />
-      </Button>
+      </Button> */}
       <Modal
         open={open}
         onClose={handleClose}
