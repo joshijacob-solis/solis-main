@@ -48,7 +48,7 @@ export default function MainModal(props) {
           left: "0px",
           width: `${window.innerWidth / 6.5}px`,
           height: `${window.innerWidth / 6.5}px`,
-          display:isVisible?"block":"none"
+          display: "none"
         }}
         onClick={handleOpen}
       >
