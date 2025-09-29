@@ -16,7 +16,7 @@ export const MainPageLayout = () => {
       <Header />
       <Outlet />
       <ScrollTopButton />
-      {(!path.includes("/contacts"))&&<MainModal>
+      {/* {(!path.includes("/contacts"))&&<MainModal>
         <MultiCarousel
           isModal={true}
           data={[
@@ -32,7 +32,7 @@ export const MainPageLayout = () => {
             />,
           ]}
         />
-      </MainModal>}
+      </MainModal>} */}
       <Footer />
     </div>
   );
