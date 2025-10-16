@@ -4,7 +4,7 @@ export const ContactPageStyles = () => {
   const matches = useMediaQuery("(max-width:825px)");
 
   const cardShadow = "rgba(100, 100, 111, 0.25) 0px 20px 45px 0px";
-  const cardRadius = "22px";
+  const cardRadius = "20px";
 
   if (!matches) {
     // ===== Desktop (>=825px)
@@ -21,78 +21,84 @@ export const ContactPageStyles = () => {
       // Bottom overlay holding BOTH cards: left = contact, right = form
       overlayContainer: {
         position: "absolute",
-        bottom: "80px",        // distance above footer (adjust as you like)
+        bottom: "80px",
         left: 0,
         width: "100%",
-        paddingLeft: "70px",   // inset from edges
+        paddingLeft: "70px",
         paddingRight: "70px",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "flex-end",
         gap: "30px",
-        zIndex: 50,            // above the map background
-        pointerEvents: "none", // prevent background map from capturing scroll/click
+        zIndex: 50,
+        pointerEvents: "none",
       },
 
-      // Shared card style (BOTH cards)
+      // === EXACT equal height cards ===
       contactBoxStyle: {
-        pointerEvents: "auto", // re-enable interactions inside the card
+        pointerEvents: "auto",
         position: "relative",
-        width: "420px",        // same width for Contact & Form
-        // minHeight: "420px", // (optional) uncomment to force equal height
+        width: "420px",
+        height: "420px",               // <-- exact equal height
         borderRadius: cardRadius,
         backgroundColor: "#fff",
         boxShadow: cardShadow,
         zIndex: 999,
         overflow: "hidden",
+
+        display: "flex",               // let inner content stretch
+        flexDirection: "column",
       },
 
-      // Left card header (Contact Us)
+      // Reduced header height
       contactHeaderBox: {
         width: "100%",
-        height: "80px",               // shorter header
+        height: "64px",                // <-- smaller header
         display: "flex",
         alignItems: "center",
         backgroundColor: "rgba(0,0,0,0.55)",
         borderTopLeftRadius: cardRadius,
         borderTopRightRadius: cardRadius,
-        fontSize: "26px",
+        fontSize: "22px",
         color: "#fff",
-        fontWeight: 600,
-        padding: "18px 25px",
+        fontWeight: 700,
+        padding: "0 20px",
+        flexShrink: 0,
       },
 
-      // Right card header (Form)
       contactHeaderBoxAccent: {
         width: "100%",
-        height: "80px",
+        height: "64px",                // <-- smaller header
         display: "flex",
         alignItems: "center",
-        backgroundColor: "#f97316",    // change to your brand color if needed
+        backgroundColor: "#f97316",
         borderTopLeftRadius: cardRadius,
         borderTopRightRadius: cardRadius,
-        fontSize: "26px",
+        fontSize: "22px",
         color: "#fff",
-        fontWeight: 600,
-        padding: "18px 25px",
+        fontWeight: 700,
+        padding: "0 20px",
+        flexShrink: 0,
       },
 
-      imageIconStyle: { width: "22px", height: "22px" },
+      imageIconStyle: { width: "20px", height: "20px" },
 
-      // Clean inner spacing; keeps long email within margins
+      // Content fills remaining space inside the fixed-height card
       contactDataBox: {
         width: "100%",
-        padding: "20px 28px 26px 28px",
+        padding: "16px 22px 20px 22px",
         display: "flex",
         flexDirection: "column",
         gap: "10px",
+        overflow: "auto",              // scroll if content ever exceeds
+        flex: 1,                        // take remaining height under header
       },
 
       typographyStyles: {
         color: "#3c3c3c",
-        fontSize: "17px",
+        fontSize: "16px",
         textAlign: "left",
-        lineHeight: 1.6,
+        lineHeight: 1.55,
         wordBreak: "break-word",
         marginBottom: "2px",
       },
@@ -119,26 +125,32 @@ export const ContactPageStyles = () => {
       display: "flex",
       flexDirection: "column",
       alignItems: "stretch",
-      gap: "20px",
+      gap: "16px",
       zIndex: 50,
       pointerEvents: "none",
     },
 
+    // Exact equal height on mobile too (slightly smaller)
     contactBoxStyle: {
       pointerEvents: "auto",
       position: "relative",
       width: "100%",
       minWidth: "300px",
+      height: "360px",                // <-- exact equal height (mobile)
       borderRadius: cardRadius,
       backgroundColor: "#fff",
       boxShadow: cardShadow,
       zIndex: 999,
       overflow: "hidden",
+
+      display: "flex",
+      flexDirection: "column",
     },
 
+    // Reduced mobile headers
     contactHeaderBox: {
       width: "100%",
-      height: "70px",
+      height: "56px",
       display: "flex",
       alignItems: "center",
       backgroundColor: "rgba(0,0,0,0.55)",
@@ -146,13 +158,14 @@ export const ContactPageStyles = () => {
       borderTopRightRadius: cardRadius,
       fontSize: "18px",
       color: "#fff",
-      fontWeight: 600,
-      padding: "16px 20px",
+      fontWeight: 700,
+      padding: "0 16px",
+      flexShrink: 0,
     },
 
     contactHeaderBoxAccent: {
       width: "100%",
-      height: "70px",
+      height: "56px",
       display: "flex",
       alignItems: "center",
       backgroundColor: "#f97316",
@@ -160,24 +173,27 @@ export const ContactPageStyles = () => {
       borderTopRightRadius: cardRadius,
       fontSize: "18px",
       color: "#fff",
-      fontWeight: 600,
-      padding: "16px 20px",
+      fontWeight: 700,
+      padding: "0 16px",
+      flexShrink: 0,
     },
 
     imageIconStyle: { width: "18px", height: "18px" },
 
     contactDataBox: {
       width: "100%",
-      padding: "18px 20px 20px 20px",
+      padding: "14px 16px 16px 16px",
       display: "flex",
       flexDirection: "column",
       gap: "8px",
+      overflow: "auto",
+      flex: 1,
     },
 
     typographyStyles: {
       color: "#3c3c3c",
       fontSize: "15px",
-      lineHeight: 1.55,
+      lineHeight: 1.5,
       wordBreak: "break-word",
       marginBottom: "2px",
     },
