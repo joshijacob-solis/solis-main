@@ -1,125 +1,147 @@
 import { useMediaQuery } from "@mui/material";
 
 export const ContactPageStyles = () => {
-  const matches = useMediaQuery("(max-width:825px)");
+  const isMobile = useMediaQuery("(max-width:825px)");
 
   return {
     wrapGridStyle: {
       width: "100%",
       height: "100vh",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
       position: "relative",
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
+      display: "flex",
     },
 
     containerGrid: {
       position: "absolute",
-      bottom: "5%",
+      bottom: isMobile ? "4%" : "6%",
       left: "50%",
       transform: "translateX(-50%)",
       display: "flex",
-      flexDirection: matches ? "column" : "row",
-      gap: "30px",
-      width: matches ? "95%" : "85%",
-      justifyContent: "space-between",
+      flexDirection: isMobile ? "column" : "row",
+      gap: isMobile ? "14px" : "26px",
+      width: isMobile ? "94%" : "86%",
       zIndex: 999,
     },
 
-    /* Left - Contact Box */
+    // ===== LEFT CARD =====
     contactBoxStyle: {
       backgroundColor: "#fff",
       borderRadius: "20px",
-      width: matches ? "100%" : "45%",
-      boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
-      overflow: "hidden",
+      width: isMobile ? "100%" : "46%",
+      boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
       display: "flex",
       flexDirection: "column",
+      minHeight: isMobile ? 460 : 520, // ⬅ taller on mobile and desktop
+      overflow: "hidden",
     },
 
     contactHeaderBox: {
       backgroundColor: "#5c5c5c",
       color: "#fff",
-      fontSize: matches ? "20px" : "26px",
-      fontWeight: 600,
-      padding: "15px 20px",
+      fontSize: isMobile ? "18px" : "22px",
+      fontWeight: 700,
+      padding: "14px 18px",
     },
 
-    contactDataBox: {
-      padding: "25px 30px",
+    contactScrollArea: {
+      padding: "22px 24px",
+      overflowY: "auto",
+      maxHeight: isMobile ? 360 : 420, // content scrolls; header stays fixed
     },
 
     imageIconStyle: {
-      width: matches ? "18px" : "22px",
-      height: matches ? "18px" : "22px",
+      width: isMobile ? 18 : 22,
+      height: isMobile ? 18 : 22,
     },
 
     typographyStyles: {
       color: "#3c3c3c",
-      fontSize: matches ? "14px" : "17px",
+      fontSize: isMobile ? 14 : 16,
       marginBottom: "10px",
     },
 
-    /* Right - Form Box */
+    // ===== RIGHT CARD =====
     formBoxStyle: {
       backgroundColor: "#fff",
       borderRadius: "20px",
-      width: matches ? "100%" : "45%",
-      boxShadow: "0 8px 30px rgba(0,0,0,0.15)",
+      width: isMobile ? "100%" : "46%",
+      boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
       display: "flex",
       flexDirection: "column",
+      minHeight: isMobile ? 520 : 560, // ⬅ higher so button fits
       overflow: "hidden",
-      minHeight: matches ? "auto" : "480px",
     },
 
     formHeaderBox: {
-      backgroundColor: "#ff6600",
+      backgroundColor: "#ff6a00",
       color: "#fff",
-      fontWeight: 700,
-      fontSize: matches ? "18px" : "22px",
-      padding: "15px 20px",
+      fontWeight: 800,
+      fontSize: isMobile ? 18 : 22,
+      padding: "14px 18px",
     },
 
     formBodyBox: {
       display: "flex",
       flexDirection: "column",
-      gap: "12px",
-      padding: "25px 30px",
+      flex: 1,
+      /* scrollable body so sticky button is always visible */
+      overflow: "hidden",
+    },
+
+    formFieldsArea: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 12,
+      padding: "18px 20px",
+      overflowY: "auto",
+      /* leave room at the bottom so last field isn't hidden under sticky footer */
+      paddingBottom: 90,
+      maxHeight: isMobile ? 380 : 420,
+    },
+
+    formFooterSticky: {
+      position: "sticky",
+      bottom: 0,
+      left: 0,
+      right: 0,
+      background: "linear-gradient(180deg, rgba(255,255,255,0.6), #ffffff 40%)",
+      padding: "12px 20px 16px",
+      borderTop: "1px solid rgba(0,0,0,0.06)",
     },
 
     inputStyle: {
       padding: "12px 14px",
-      border: "1px solid #ccc",
-      borderRadius: "8px",
-      fontSize: "16px",
+      border: "1px solid #d6d6d6",
+      borderRadius: 10,
+      fontSize: 16,
       outline: "none",
+      width: "100%",
+      background: "#fff",
     },
 
     textareaStyle: {
       padding: "12px 14px",
-      border: "1px solid #ccc",
-      borderRadius: "8px",
-      fontSize: "16px",
-      minHeight: "100px",
+      border: "1px solid #d6d6d6",
+      borderRadius: 10,
+      fontSize: 16,
+      minHeight: 110,
       resize: "vertical",
       outline: "none",
+      width: "100%",
+      background: "#fff",
     },
 
     submitButtonStyle: {
-      backgroundColor: "#ff6600",
+      backgroundColor: "#ff6a00",
       color: "#fff",
-      fontWeight: 600,
-      fontSize: "16px",
+      fontWeight: 800,
+      fontSize: 16,
       textTransform: "none",
-      padding: "12px 0",
-      borderRadius: "8px",
-      marginTop: "10px",
-      "&:hover": {
-        backgroundColor: "#e25500",
-      },
+      padding: "12px 16px",
+      borderRadius: 10,
+      width: "100%",
+      boxShadow: "0 8px 16px rgba(255,106,0,0.28)",
+      "&:hover": { backgroundColor: "#e85e00" },
     },
   };
 };
