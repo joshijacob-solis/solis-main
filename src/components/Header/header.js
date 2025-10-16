@@ -29,8 +29,7 @@ export function Header(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const path = useLocation().pathname;
-  const matches = useMediaQuery("(max-width:825px)");
-  const compact = useMediaQuery("(max-width:1024px)");
+  const mobile = useMediaQuery("(max-width:825px)");
   const navigate = useNavigate();
 
   // ---- Contact / CTA URLs ----
@@ -109,11 +108,22 @@ export function Header(props) {
         position="fixed"
         sx={(theme) => ({
           ...s.appBarStyles,
-          zIndex: theme.zIndex.modal + 1, // keep header above all overlays
+          zIndex: theme.zIndex.modal + 1,
         })}
       >
         <Toolbar sx={s.toolBarStyles}>
-          {/* Logo */}
+          {/* Hamburger (mobile only) */}
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={s.iconButtonStyle}
+          >
+            <MenuIcon />
+          </IconButton>
+
+          {/* Logo (immediately after hamburger on mobile) */}
           <Box sx={s.logoBoxStyles}>
             <p
               onClick={(e) => {
@@ -126,23 +136,12 @@ export function Header(props) {
               <img
                 src={Logo}
                 alt="solis-logo"
-                width={matches ? 60 : 92}
-                height={matches ? 60 : 88}
+                width={mobile ? 60 : 92}
+                height={mobile ? 60 : 88}
                 style={{ objectFit: "contain" }}
               />
             </p>
           </Box>
-
-          {/* Hamburger (mobile only) */}
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={s.iconButtonStyle}
-          >
-            <MenuIcon />
-          </IconButton>
 
           {/* Center nav (hidden on mobile) */}
           <Box sx={s.navLinkBoxStyle}>
@@ -166,7 +165,7 @@ export function Header(props) {
             ))}
           </Box>
 
-          {/* CTA group — permanent, also on mobile (icon-only) */}
+          {/* CTA group — icon-only, equal square size on all breakpoints */}
           <Box sx={s.ctaGroupStyle}>
             <Button
               className="cta-btn"
@@ -176,9 +175,9 @@ export function Header(props) {
               size="small"
               startIcon={<PhoneIcon fontSize="small" />}
               sx={s.ctaButton}
-            >
-              {!compact && "Call"}
-            </Button>
+              aria-label="Call"
+              title="Call"
+            />
             <Button
               className="cta-btn"
               href={whatsappUrl}
@@ -189,9 +188,9 @@ export function Header(props) {
               size="small"
               startIcon={<WhatsAppIcon fontSize="small" />}
               sx={s.ctaButton}
-            >
-              {!compact && "WhatsApp"}
-            </Button>
+              aria-label="WhatsApp"
+              title="WhatsApp"
+            />
             <Button
               className="cta-btn"
               href={directionsUrl}
@@ -202,9 +201,9 @@ export function Header(props) {
               size="small"
               startIcon={<NearMeIcon fontSize="small" />}
               sx={s.ctaButton}
-            >
-              {!compact && "Directions"}
-            </Button>
+              aria-label="Directions"
+              title="Directions"
+            />
           </Box>
         </Toolbar>
       </AppBar>
@@ -229,7 +228,7 @@ export function Header(props) {
 
       {/* Spacer for fixed header */}
       <Box component="main" sx={{ p: 0 }}>
-        <Toolbar sx={{ minHeight: matches ? 56 : 64 }} />
+        <Toolbar sx={{ minHeight: mobile ? 56 : 64 }} />
       </Box>
     </Box>
   );
