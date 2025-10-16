@@ -3,8 +3,8 @@ import { useMediaQuery } from "@mui/material";
 export const ContactPageStyles = () => {
   const isMobile = useMediaQuery("(max-width:825px)");
 
-  // ⬆️ Increased both card heights by ~30 mm (≈114 px)
-  const CARD_HEIGHT = isMobile ? 1190 : 1010;
+  // Tall, equal cards; + sticky button inside a scrollable body
+  const CARD_HEIGHT = isMobile ? 1200 : 1000;
 
   return {
     wrapGridStyle: {
@@ -12,74 +12,63 @@ export const ContactPageStyles = () => {
       height: "100vh",
       position: "relative",
       display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
     },
 
     containerGrid: {
       position: "absolute",
-      bottom: isMobile ? "5%" : "6%",
+      bottom: isMobile ? "7%" : "8%", // lift cards so tall heights don’t clip
       left: "50%",
       transform: "translateX(-50%)",
       display: "flex",
       flexDirection: isMobile ? "column" : "row",
-      gap: isMobile ? "24px" : "36px",
-      width: isMobile ? "94%" : "85%",
+      gap: isMobile ? "22px" : "32px",
+      width: isMobile ? "94%" : "86%",
       zIndex: 999,
       alignItems: "stretch",
     },
 
-    /* ========= CONTACT CARD ========= */
+    // ========== CONTACT CARD ==========
     contactBoxStyle: {
       backgroundColor: "#fff",
       borderRadius: "20px",
       width: isMobile ? "100%" : "46%",
       height: CARD_HEIGHT,
-      boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
       display: "flex",
       flexDirection: "column",
+      boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
       overflow: "hidden",
     },
 
     contactHeaderBox: {
       backgroundColor: "#5c5c5c",
       color: "#fff",
-      fontSize: isMobile ? "20px" : "26px",
       fontWeight: 700,
+      fontSize: isMobile ? 20 : 24,
       padding: "16px 22px",
-      flexShrink: 0,
       borderBottom: "3px solid #ff6a00",
+      flexShrink: 0,
     },
 
-    contactDataBox: {
-      padding: "28px 30px",
-      display: "flex",
-      flexDirection: "column",
+    // scrollable body so long contact info never pushes outside the card
+    contactBodyScroll: {
+      padding: "24px 26px",
+      overflowY: "auto",
       flex: 1,
       minHeight: 0,
-      justifyContent: "flex-start",
     },
 
-    imageIconStyle: {
-      width: isMobile ? "18px" : "22px",
-      height: isMobile ? "18px" : "22px",
-    },
+    imageIconStyle: { width: isMobile ? 18 : 22, height: isMobile ? 18 : 22 },
+    typographyStyles: { color: "#3c3c3c", fontSize: isMobile ? 15 : 16, marginBottom: "12px" },
 
-    typographyStyles: {
-      color: "#3c3c3c",
-      fontSize: isMobile ? "15px" : "17px",
-      marginBottom: "12px",
-    },
-
-    /* ========= FORM CARD ========= */
+    // ========== FORM CARD ==========
     formBoxStyle: {
       backgroundColor: "#fff",
       borderRadius: "20px",
       width: isMobile ? "100%" : "46%",
-      height: CARD_HEIGHT, // exactly same as Contact card
-      boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
+      height: CARD_HEIGHT, // EXACT same as contact card
       display: "flex",
       flexDirection: "column",
+      boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
       overflow: "hidden",
     },
 
@@ -87,22 +76,25 @@ export const ContactPageStyles = () => {
       backgroundColor: "#ff6a00",
       color: "#fff",
       fontWeight: 800,
-      fontSize: isMobile ? 20 : 26,
+      fontSize: isMobile ? 20 : 24,
       padding: "16px 22px",
-      flexShrink: 0,
       borderBottom: "3px solid #ffa54d",
+      flexShrink: 0,
     },
 
-    formBodyBox: {
+    // 👇 THIS is the scroll container; footer inside is sticky
+    formBodyScroll: {
       display: "flex",
       flexDirection: "column",
-      gap: 16,
-      padding: "28px 32px",
+      gap: 14,
+      padding: "22px 26px 110px", // extra bottom space under fields (footer height)
+      overflowY: "auto",
       flex: 1,
       minHeight: 0,
-      justifyContent: "flex-start",
+      position: "relative",
     },
 
+    // inputs
     inputStyle: {
       padding: "14px 16px",
       border: "1px solid #ccc",
@@ -112,21 +104,34 @@ export const ContactPageStyles = () => {
       width: "100%",
       background: "#fff",
     },
-
     textareaStyle: {
       padding: "14px 16px",
       border: "1px solid #ccc",
       borderRadius: 10,
       fontSize: 16,
-      minHeight: 240,
+      minHeight: 220,
       resize: "vertical",
       outline: "none",
       width: "100%",
       background: "#fff",
     },
 
+    // sticky footer inside scroll container
+    stickyFooter: {
+      position: "sticky",
+      bottom: 0,
+      left: 0,
+      right: 0,
+      paddingTop: 12,
+      marginTop: 12,
+      background:
+        "linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,0.75) 40%, #ffffff 70%)",
+      backdropFilter: "saturate(180%) blur(2px)",
+      paddingBottom: 10,
+    },
+
     submitButtonStyle: {
-      alignSelf: "stretch",
+      width: "100%",
       backgroundColor: "#ff6a00",
       color: "#fff",
       fontWeight: 800,
@@ -134,8 +139,7 @@ export const ContactPageStyles = () => {
       textTransform: "none",
       padding: "14px 18px",
       borderRadius: 10,
-      boxShadow: "0 8px 20px rgba(255,106,0,0.25)",
-      marginTop: "auto",
+      boxShadow: "0 10px 24px rgba(255,106,0,0.25)",
       "&:hover": { backgroundColor: "#e85e00" },
     },
   };
