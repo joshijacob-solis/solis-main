@@ -18,18 +18,13 @@ export const HeaderStyles = () => {
       px: mobile ? 1 : 2,
       display: "flex",
       alignItems: "center",
-      justifyContent: "center", // center contents; we place hamburger/CTAs absolutely
       gap: "12px",
       position: "relative", // needed for absolute hamburger & CTAs
-    },
-
-    // Logo (add left space so it doesn't collide with absolute hamburger)
-    logoBoxStyles: {
-      display: "flex",
-      alignItems: "center",
-      ...(mobile
-        ? { marginLeft: 44 } // space for hamburger (40px button + 4px gap)
-        : { marginLeft: 0 }),
+      // ✅ Mobile: line up items from the left so logo sits right after hamburger
+      // ✅ Desktop: normal space-between
+      justifyContent: mobile ? "flex-start" : "space-between",
+      // Give a tiny right padding on mobile so CTAs at absolute right have breathing room
+      paddingRight: mobile ? 48 : undefined,
     },
 
     // 🍔 Hamburger: ALWAYS visible on mobile, fixed to left
@@ -41,11 +36,21 @@ export const HeaderStyles = () => {
           left: 8,
           top: "50%",
           transform: "translateY(-50%)",
-          zIndex: 2, // above anything else in header
+          zIndex: 2,
         }
       : {
           display: "none",
         },
+
+    // 🔆 Logo sits immediately after the hamburger on mobile
+    logoBoxStyles: {
+      display: "flex",
+      alignItems: "center",
+      // leave space so the logo doesn't overlap hamburger
+      marginLeft: mobile ? 44 : 0, // 40px button + small gap
+      // prevent pushing other content away
+      flexShrink: 0,
+    },
 
     // Center nav hidden on mobile
     navLinkBoxStyle: {
