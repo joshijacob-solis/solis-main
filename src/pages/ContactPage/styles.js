@@ -3,8 +3,8 @@ import { useMediaQuery } from "@mui/material";
 export const ContactPageStyles = () => {
   const isMobile = useMediaQuery("(max-width:825px)");
 
-  // Equal & tall heights so the button fits comfortably
-  const CARD_HEIGHT = isMobile ? 820 : 720;
+  // ⬆️ Make both boxes tall & equal so the submit button is always visible
+  const CARD_HEIGHT = isMobile ? 1040 : 860;
 
   return {
     wrapGridStyle: {
@@ -16,12 +16,13 @@ export const ContactPageStyles = () => {
 
     containerGrid: {
       position: "absolute",
-      bottom: isMobile ? "4%" : "6%",
+      // nudge up from the footer so tall cards aren’t clipped
+      bottom: isMobile ? "4%" : "5%",
       left: "50%",
       transform: "translateX(-50%)",
       display: "flex",
       flexDirection: isMobile ? "column" : "row",
-      gap: isMobile ? "18px" : "30px",
+      gap: isMobile ? "20px" : "36px",
       width: isMobile ? "94%" : "86%",
       zIndex: 999,
       alignItems: "stretch",
@@ -52,8 +53,8 @@ export const ContactPageStyles = () => {
       padding: "24px 26px",
       display: "flex",
       flexDirection: "column",
-      flex: 1,            // fill remaining height
-      minHeight: 0,       // allow flexbox to size correctly
+      flex: 1,
+      minHeight: 0,
     },
 
     imageIconStyle: {
@@ -72,7 +73,7 @@ export const ContactPageStyles = () => {
       backgroundColor: "#fff",
       borderRadius: "20px",
       width: isMobile ? "100%" : "46%",
-      height: CARD_HEIGHT,
+      height: CARD_HEIGHT, // 👈 same tall height
       boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
       display: "flex",
       flexDirection: "column",
@@ -88,7 +89,7 @@ export const ContactPageStyles = () => {
       flexShrink: 0,
     },
 
-    // Flex column: fields, spacer (flexGrow:1), button
+    // Flex column: fields, spacer, button (button stays visible)
     formBodyBox: {
       display: "flex",
       flexDirection: "column",
@@ -113,7 +114,7 @@ export const ContactPageStyles = () => {
       border: "1px solid #ccc",
       borderRadius: 10,
       fontSize: 16,
-      minHeight: 160,
+      minHeight: 220, // give more space inside the tall form
       resize: "vertical",
       outline: "none",
       width: "100%",
@@ -130,6 +131,7 @@ export const ContactPageStyles = () => {
       padding: "14px 18px",
       borderRadius: 10,
       boxShadow: "0 8px 20px rgba(255,106,0,0.25)",
+      marginTop: 10,
       "&:hover": { backgroundColor: "#e85e00" },
     },
   };
