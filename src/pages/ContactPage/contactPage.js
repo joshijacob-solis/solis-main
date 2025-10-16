@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, Button, useMediaQuery } from "@mui/material";
+import { Box, Grid, Typography, Button, useMediaQuery, Snackbar, Alert } from "@mui/material";
 import { ContactPageStyles } from "./styles";
 import locationIcon from "../../assets/images/locationIcon.png";
 import phoneIcon from "../../assets/images/phoneIcon.png";
@@ -7,42 +7,114 @@ import gmailIcon from "../../assets/images/gmailIcon.png";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { useState } from "react";
+
+// Fix for default markers in react-leaflet
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 export const ContactPage = () => {
   const s = ContactPageStyles();
   const matches = useMediaQuery("(max-width:825px)");
-
-  const solisPosition = [9.395112, 76.5660969]; // Solis Green coordinates
-
-  const icon = L.icon({
-    iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
-    iconSize: [40, 40],
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
+    service: ""
   });
 
-  const composeEmail = () => (window.location.href = `mailto:solisgreenindia@gmail.com`);
+  const solisPosition = [9.395112, 76.5660969];
+
+  const customIcon = L.icon({
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -40],
+  });
+
+  // Contact actions
+  const composeEmail = () => window.open("mailto:solisgreenindia@gmail.com?subject=Inquiry%20-%20Solis%20Green%20Energy");
   const openWhatsApp = () => {
-    const url = matches
-      ? "https://api.whatsapp.com/send?phone=+918301849474"
-      : "https://web.whatsapp.com/send?phone=+918301849474";
+    const message = "Hello, I'm interested in Solar solutions from Solis Green Energy.";
+    const url = `https://${matches ? 'api' : 'web'}.whatsapp.com/send?phone=+918301849474&text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };
-  const openDialer = () => (window.location.href = "tel:+918301849474");
+  const openDialer = () => window.open("tel:+918301849474");
 
-  const handleSubmit = (e) => {
+  // Form handling
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Your request has been submitted successfully!");
+    
+    // Basic validation
+    if (!formData.name.trim() || !formData.phone.trim()) {
+      setSnackbar({ open: true, message: "Please fill in all required fields", severity: "error" });
+      return;
+    }
+
+    // Phone validation
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(formData.phone.replace(/\D/g, ''))) {
+      setSnackbar({ open: true, message: "Please enter a valid 10-digit phone number", severity: "error" });
+      return;
+    }
+
+    try {
+      // Here you would typically send to your backend
+      console.log("Form submitted:", formData);
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      setSnackbar({ 
+        open: true, 
+        message: "Thank you! We'll contact you shortly.", 
+        severity: "success" 
+      });
+      
+      // Reset form
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        message: "",
+        service: ""
+      });
+    } catch (error) {
+      setSnackbar({ 
+        open: true, 
+        message: "Something went wrong. Please try again.", 
+        severity: "error" 
+      });
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
   };
 
   return (
     <Grid sx={s.wrapGridStyle}>
       <Box sx={s.containerGrid}>
-        {/* 1️⃣ CONTACT BOX */}
+        {/* 1️⃣ CONTACT INFO BOX */}
         <Box sx={s.contactBoxStyle}>
-          <Box sx={s.headerBox}>Contact Us</Box>
+          <Box sx={s.headerBox}>Get In Touch</Box>
           <Box sx={s.bodyBox}>
             <Typography variant="h6" sx={s.typographyStyles}>
-              <img src={locationIcon} style={s.imageIconStyle} alt="location" /> &nbsp;
-              <b>Solis Green Energy Solutions</b>
+              <img src={locationIcon} style={s.imageIconStyle} alt="location" /> 
+              <Box component="span" sx={{ marginLeft: 1 }}>
+                <b>Solis Green Energy Solutions</b>
+              </Box>
             </Typography>
             <Typography sx={s.typographyStyles}>
               Mini Kristal Arcade, Muthoor P.O, Thiruvalla,
@@ -51,53 +123,147 @@ export const ContactPage = () => {
               <br />
               Pin: <b>689107</b>
             </Typography>
-            <Typography sx={s.typographyStyles} onClick={composeEmail}>
-              <img src={gmailIcon} style={s.imageIconStyle} alt="email" /> &nbsp;
-              <b>Email:</b> solisgreenindia@gmail.com
-            </Typography>
-            <Typography sx={s.typographyStyles} onClick={openWhatsApp}>
-              <img src={whatsAppIcon} style={s.imageIconStyle} alt="whatsapp" /> &nbsp;
-              <b>WhatsApp:</b> +91 8301849474
-            </Typography>
-            <Typography sx={s.typographyStyles} onClick={openDialer}>
-              <img src={phoneIcon} style={s.imageIconStyle} alt="phone" /> &nbsp;
-              <b>Phone:</b> +91 8301849474
-            </Typography>
+            
+            <Box sx={{ mt: 2 }}>
+              <Typography sx={{ ...s.typographyStyles, cursor: "pointer", '&:hover': { color: '#1976d2' } }} onClick={composeEmail}>
+                <img src={gmailIcon} style={s.imageIconStyle} alt="email" /> 
+                <Box component="span" sx={{ marginLeft: 1 }}>
+                  <b>Email:</b> solisgreenindia@gmail.com
+                </Box>
+              </Typography>
+              
+              <Typography sx={{ ...s.typographyStyles, cursor: "pointer", '&:hover': { color: '#25D366' } }} onClick={openWhatsApp}>
+                <img src={whatsAppIcon} style={s.imageIconStyle} alt="whatsapp" /> 
+                <Box component="span" sx={{ marginLeft: 1 }}>
+                  <b>WhatsApp:</b> +91 83018 49474
+                </Box>
+              </Typography>
+              
+              <Typography sx={{ ...s.typographyStyles, cursor: "pointer", '&:hover': { color: '#1976d2' } }} onClick={openDialer}>
+                <img src={phoneIcon} style={s.imageIconStyle} alt="phone" /> 
+                <Box component="span" sx={{ marginLeft: 1 }}>
+                  <b>Phone:</b> +91 83018 49474
+                </Box>
+              </Typography>
+            </Box>
+
+            {/* Business Hours */}
+            <Box sx={{ mt: 3, p: 2, backgroundColor: 'rgba(0,0,0,0.03)', borderRadius: 1 }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1 }}>
+                Business Hours
+              </Typography>
+              <Typography variant="body2">
+                Monday - Saturday: 9:00 AM - 6:00 PM<br />
+                Sunday: Closed
+              </Typography>
+            </Box>
           </Box>
         </Box>
 
         {/* 2️⃣ MAP BOX */}
         <Box sx={s.mapBoxStyle}>
-          <Box sx={s.headerBox}>Locate Us</Box>
+          <Box sx={s.headerBox}>Our Location</Box>
           <Box sx={s.mapContainer}>
             <MapContainer
               center={solisPosition}
-              zoom={13}
+              zoom={15}
               style={{ height: "100%", width: "100%", borderRadius: "0 0 20px 20px" }}
-              scrollWheelZoom={false}
+              scrollWheelZoom={true}
             >
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Marker position={solisPosition} icon={icon}>
-                <Popup>Solis Green Energy Solutions, Thiruvalla</Popup>
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Marker position={solisPosition} icon={customIcon}>
+                <Popup>
+                  <strong>Solis Green Energy Solutions</strong><br />
+                  Mini Kristal Arcade<br />
+                  Thiruvalla, Kerala 689107
+                </Popup>
               </Marker>
             </MapContainer>
           </Box>
         </Box>
 
-        {/* 3️⃣ FORM BOX */}
+        {/* 3️⃣ CONTACT FORM BOX */}
         <Box sx={s.formBoxStyle}>
-          <Box sx={s.headerBoxOrange}>Request a Callback</Box>
+          <Box sx={s.headerBoxOrange}>Free Solar Consultation</Box>
           <Box component="form" onSubmit={handleSubmit} sx={s.formBodyBox}>
-            <input type="text" name="name" placeholder="Full Name *" required style={s.inputStyle} />
-            <input type="tel" name="phone" placeholder="Phone *" required style={s.inputStyle} />
-            <input type="email" name="email" placeholder="Email (optional)" style={s.inputStyle} />
-            <textarea name="message" placeholder="Message (optional)" style={s.textareaStyle}></textarea>
-            <Button type="submit" variant="contained" sx={s.submitButtonStyle}>
-              Submit Request
+            <input 
+              type="text" 
+              name="name" 
+              placeholder="Full Name *" 
+              required 
+              style={s.inputStyle}
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+            
+            <input 
+              type="tel" 
+              name="phone" 
+              placeholder="Phone Number *" 
+              required 
+              style={s.inputStyle}
+              value={formData.phone}
+              onChange={handleInputChange}
+            />
+            
+            <input 
+              type="email" 
+              name="email" 
+              placeholder="Email Address" 
+              style={s.inputStyle}
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+
+            <select 
+              name="service" 
+              style={s.inputStyle}
+              value={formData.service}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Service Interest</option>
+              <option value="residential">Residential Solar</option>
+              <option value="commercial">Commercial Solar</option>
+              <option value="industrial">Industrial Solar</option>
+              <option value="water-pumps">Solar Water Pumps</option>
+              <option value="street-lights">Solar Street Lights</option>
+              <option value="other">Other</option>
+            </select>
+            
+            <textarea 
+              name="message" 
+              placeholder="Tell us about your solar requirements..." 
+              style={s.textareaStyle}
+              value={formData.message}
+              onChange={handleInputChange}
+              rows={4}
+            ></textarea>
+            
+            <Button type="submit" variant="contained" sx={s.submitButtonStyle} fullWidth>
+              Get Free Consultation
             </Button>
+            
+            <Typography variant="caption" sx={{ display: 'block', textAlign: 'center', mt: 1, color: 'text.secondary' }}>
+              We'll contact you within 24 hours
+            </Typography>
           </Box>
         </Box>
       </Box>
+
+      {/* Success/Error Notification */}
+      <Snackbar 
+        open={snackbar.open} 
+        autoHideDuration={6000} 
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 };
