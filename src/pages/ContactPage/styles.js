@@ -5,10 +5,11 @@ export const ContactPageStyles = () => {
 
   return !matches
     ? {
-        // ===== Desktop styles (>= 825px) =====
+        // ===== Desktop (>=825px) =====
         wrapGridStyle: {
           width: "100%",
-          height: "100vh",
+          minHeight: "100vh",
+          height: "auto",
           display: "flex",
           position: "relative",
           backgroundRepeat: "no-repeat",
@@ -16,24 +17,33 @@ export const ContactPageStyles = () => {
           backgroundSize: "cover",
           objectFit: "cover",
           backgroundPosition: "center",
+          overflow: "hidden",
         },
-        contactBoxStyle: {
+
+        // Move the boxes near bottom (above footer)
+        overlayContainer: {
           position: "absolute",
-          width: "fit-content",
+          bottom: "80px", // ⬅ push it near footer, adjust to your preference
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "85%",
+          zIndex: 50,
+        },
+
+        contactBoxStyle: {
+          position: "relative",
+          width: "100%",
           height: "fit-content",
-          top: "30%",
-          left: "5%",
           borderRadius: "30px",
           backgroundColor: "#fff",
           zIndex: 999,
-          boxShadow: "rgba(100, 100, 111, 0.2) 0px 77px 29px 0px",
+          boxShadow: "rgba(100, 100, 111, 0.3) 0px 25px 50px 0px",
         },
+
         contactHeaderBox: {
           width: "100%",
           height: "100px",
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "start",
           alignItems: "center",
           backgroundColor: "rgba(0,0,0,0.5)",
           borderTopLeftRadius: "30px",
@@ -43,15 +53,13 @@ export const ContactPageStyles = () => {
           fontWeight: "600",
           padding: "20px",
         },
-        // NEW: Accent header (use for the form box)
+
         contactHeaderBoxAccent: {
           width: "100%",
           height: "100px",
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "start",
           alignItems: "center",
-          backgroundColor: "#f97316", // change to '#0ea5e9' for blue
+          backgroundColor: "#f97316", // Accent color for form header
           borderTopLeftRadius: "30px",
           borderTopRightRadius: "30px",
           fontSize: "30px",
@@ -59,10 +67,8 @@ export const ContactPageStyles = () => {
           fontWeight: "600",
           padding: "20px",
         },
-        imageIconStyle: {
-          width: "25px",
-          height: "25px",
-        },
+
+        imageIconStyle: { width: "25px", height: "25px" },
         contactDataBox: { width: "100%", height: "100%", padding: "30px" },
         typographyStyles: {
           color: "#3c3c3c",
@@ -72,10 +78,11 @@ export const ContactPageStyles = () => {
         },
       }
     : {
-        // ===== Mobile styles (< 825px) =====
+        // ===== Mobile (<825px) =====
         wrapGridStyle: {
           width: "100%",
-          height: "100vh",
+          minHeight: "100vh",
+          height: "auto",
           display: "flex",
           position: "relative",
           backgroundRepeat: "no-repeat",
@@ -83,26 +90,33 @@ export const ContactPageStyles = () => {
           backgroundSize: "cover",
           objectFit: "cover",
           backgroundPosition: "center",
+          overflow: "hidden",
         },
-        contactBoxStyle: {
+
+        overlayContainer: {
           position: "absolute",
-          width: "fit-content",
+          bottom: "40px", // ⬅ near footer for mobile view
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "95%",
+          zIndex: 50,
+        },
+
+        contactBoxStyle: {
+          position: "relative",
+          width: "100%",
           minWidth: "290px",
           height: "fit-content",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%,-50%)",
           borderRadius: "30px",
           backgroundColor: "#fff",
           zIndex: 999,
-          boxShadow: "rgba(100, 100, 111, 0.2) 0px 77px 29px 0px",
+          boxShadow: "rgba(100, 100, 111, 0.3) 0px 25px 50px 0px",
         },
+
         contactHeaderBox: {
           width: "100%",
           height: "80px",
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "start",
           alignItems: "center",
           backgroundColor: "rgba(0,0,0,0.5)",
           borderTopLeftRadius: "30px",
@@ -112,15 +126,13 @@ export const ContactPageStyles = () => {
           fontWeight: "600",
           padding: "20px",
         },
-        // NEW: Accent header (mobile)
+
         contactHeaderBoxAccent: {
           width: "100%",
           height: "80px",
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "start",
           alignItems: "center",
-          backgroundColor: "#f97316", // change to '#0ea5e9' for blue
+          backgroundColor: "#f97316",
           borderTopLeftRadius: "30px",
           borderTopRightRadius: "30px",
           fontSize: "16px",
@@ -128,14 +140,9 @@ export const ContactPageStyles = () => {
           fontWeight: "600",
           padding: "20px",
         },
-        imageIconStyle: {
-          width: "15px",
-          height: "15px",
-        },
+
+        imageIconStyle: { width: "15px", height: "15px" },
         contactDataBox: { width: "100%", height: "100%", padding: "15px" },
-        typographyStyles: {
-          color: "#3c3c3c",
-          fontSize: "14px",
-        },
+        typographyStyles: { color: "#3c3c3c", fontSize: "14px" },
       };
 };
