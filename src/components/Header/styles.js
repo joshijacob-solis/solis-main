@@ -1,95 +1,118 @@
 import { useMediaQuery } from "@mui/material";
 
 export const HeaderStyles = () => {
-  const drawerWidth = "100%";
-  const matches = useMediaQuery("(max-width:768px)");
+  const matches = useMediaQuery("(max-width:825px)");
+
   return {
-    wrapBoxStyle: {
+    wrapBoxStyle: { flexGrow: 1 },
+
+    appBarStyles: {
+      bgcolor: "rgba(255,255,255,0.92)",
+      color: "#111",
+      backdropFilter: "saturate(180%) blur(8px)",
+      boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
+    },
+
+    toolBarStyles: {
+      minHeight: matches ? 56 : 64,
+      px: matches ? 1 : 2,
       display: "flex",
-      textTransform: "none",
-      position: "fixed",
-      zIndex: 1001,
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: "12px",
     },
-    navLinkStyles: {
-      color: "#FAF9F6",
-      textTransform: "none",
-      textDecoration: "none",
-      fontSize: "18px",
-      fontWeight: "200",
+
+    logoBoxStyles: {
+      display: "flex",
+      alignItems: "center",
+      mr: 1,
     },
-    selectedNavLinkStyle: {
-      color: "#00AA00",
-      textTransform: "none",
-      textDecoration: "none",
-      fontSize: "21px",
-      fontWeight: "200",
+
+    // Mobile menu icon visible only on <=825px
+    iconButtonStyle: {
+      color: "#111",
+      display: matches ? "inline-flex" : "none",
+      ml: 0.5,
     },
+
+    // Center nav (hidden on mobile)
     navLinkBoxStyle: {
       display: matches ? "none" : "flex",
-      width: "100%",
-      flexDirection: "row",
-      justifyContent: "right",
+      alignItems: "center",
+      gap: "26px",
+      mx: 2,
+      flex: 1,
+      justifyContent: "center",
+    },
+
+    navLinkStyles: {
+      color: "#2b2b2b",
+      textDecoration: "none",
+      fontWeight: 600,
+      opacity: 0.9,
+    },
+    selectedNavLinkStyle: {
+      color: "#0ea5e9",
+      textDecoration: "none",
+      fontWeight: 800,
+      opacity: 1,
+    },
+
+    // CTA buttons (always visible; icons-only on medium screens using component logic)
+    ctaGroupStyle: {
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      ml: "auto",
+    },
+    ctaButton: {
       textTransform: "none",
+      fontWeight: 800,
+      borderRadius: "10px",
+      px: 1.25,
+      boxShadow: "0 6px 12px rgba(0,0,0,0.08)",
+    },
+
+    // Drawer styles
+    drawerStyles: {
+      "& .MuiDrawer-paper": {
+        height: "auto",
+        borderBottomLeftRadius: "18px",
+        borderBottomRightRadius: "18px",
+      },
+    },
+    sideDrawerBoxStyle: {
+      width: "100%",
+      p: 2,
+      pt: 3,
+      position: "relative",
+    },
+    sideDrawerImageBoxStyle: {
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      mb: 1,
+    },
+    lisItemButtonStyle: { px: 2 },
+    sideDrawerLinkStyle: {
+      color: "#222",
+      textDecoration: "none",
+      fontWeight: 600,
+      fontSize: "16px",
+    },
+    selectedSideDrawerLinkStyle: {
+      color: "#0ea5e9",
+      textDecoration: "none",
+      fontWeight: 800,
+      fontSize: "16px",
     },
     closeButtonStyle: {
       position: "absolute",
-      top: "10px",
-      right: "10px",
-    },
-    toolBarStyles: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      paddingRight: "0px !important",
-      paddingLeft: "0px !important",
-    },
-    logoBoxStyles: {
-      // width: matches ? "25%" : "9%",
-      width: `${30000 / window.innerWidth}%`,
-      backgroundColor: "rgba(255,255,255,0.9)",
-      clipPath: "polygon(0% 0%, 70% 0%, 100% 100%, 0% 100%)",
-    },
-    drawerStyles: {
-      display: matches ? "block" : "none",
-      "& .MuiDrawer-paper": {
-        boxSizing: "border-box",
-        width: drawerWidth,
-        borderBottomLeftRadius: "20px",
-        borderBottomRightRadius: "20px",
-      },
-      zIndex: 20000,
-    },
-    iconButtonStyle: { mr: 2, display: matches ? "block" : "none" },
-    appBarStyles: {
-      backgroundColor: matches ? "rgba(0,0,0,1)" : "rgba(0,0,0,0.6)",
-      boxShadow: "none",
-      textTransform: "none",
-      boxSizing: "border-box",
-    },
-    sideDrawerBoxStyle: {
-      textAlign: "center",
-      backgroundColor: "whitesmoke",
-      borderBottomLeftRadius: "10px",
-    },
-    sideDrawerImageBoxStyle: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    lisItemButtonStyle: { textAlign: "center" },
-    sideDrawerLinkStyle: {
-      color: "#3c3c3c",
-      textDecoration: "none",
-      fontSize: "18px",
-      fontWeight: "200",
-      width: "100%",
-    },
-    selectedSideDrawerLinkStyle: {
-      color: "#00AA00",
-      textDecoration: "none",
-      fontSize: "21px",
-      fontWeight: "200",
-      width: "100%",
+      top: 8,
+      right: 8,
+      cursor: "pointer",
+      color: "#444",
     },
   };
 };
