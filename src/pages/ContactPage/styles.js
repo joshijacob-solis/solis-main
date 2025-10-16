@@ -2,6 +2,7 @@ import { useMediaQuery } from "@mui/material";
 
 export const ContactPageStyles = () => {
   const matches = useMediaQuery("(max-width:825px)");
+  const cardShadow = "rgba(100, 100, 111, 0.28) 0px 25px 50px 0px";
 
   return !matches
     ? {
@@ -9,37 +10,34 @@ export const ContactPageStyles = () => {
         wrapGridStyle: {
           width: "100%",
           minHeight: "100vh",
-          height: "auto",
           display: "flex",
           position: "relative",
-          backgroundRepeat: "no-repeat",
-          backgroundOrigin: "border-box",
-          backgroundSize: "cover",
-          objectFit: "cover",
-          backgroundPosition: "center",
           overflow: "hidden",
         },
 
-        // Move the boxes near bottom (above footer)
+        // Whole overlay holds both boxes
         overlayContainer: {
           position: "absolute",
-          bottom: "80px", // ⬅ push it near footer, adjust to your preference
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "85%",
+          bottom: "80px", // distance from footer
+          left: 0,
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between", // ⬅️ left & right alignment
+          padding: "0 80px", // inner margin from both sides
           zIndex: 50,
         },
 
+        // Shared box style
         contactBoxStyle: {
           position: "relative",
-          width: "100%",
-          height: "fit-content",
+          width: "380px",
           borderRadius: "30px",
           backgroundColor: "#fff",
+          boxShadow: cardShadow,
           zIndex: 999,
-          boxShadow: "rgba(100, 100, 111, 0.3) 0px 25px 50px 0px",
         },
 
+        // Left: Contact Us header
         contactHeaderBox: {
           width: "100%",
           height: "100px",
@@ -50,26 +48,27 @@ export const ContactPageStyles = () => {
           borderTopRightRadius: "30px",
           fontSize: "30px",
           color: "#fff",
-          fontWeight: "600",
+          fontWeight: 600,
           padding: "20px",
         },
 
+        // Right: Form header
         contactHeaderBoxAccent: {
           width: "100%",
           height: "100px",
           display: "flex",
           alignItems: "center",
-          backgroundColor: "#f97316", // Accent color for form header
+          backgroundColor: "#f97316", // Accent color
           borderTopLeftRadius: "30px",
           borderTopRightRadius: "30px",
           fontSize: "30px",
           color: "#fff",
-          fontWeight: "600",
+          fontWeight: 600,
           padding: "20px",
         },
 
         imageIconStyle: { width: "25px", height: "25px" },
-        contactDataBox: { width: "100%", height: "100%", padding: "30px" },
+        contactDataBox: { width: "100%", padding: "30px" },
         typographyStyles: {
           color: "#3c3c3c",
           fontSize: "18px",
@@ -82,23 +81,22 @@ export const ContactPageStyles = () => {
         wrapGridStyle: {
           width: "100%",
           minHeight: "100vh",
-          height: "auto",
           display: "flex",
           position: "relative",
-          backgroundRepeat: "no-repeat",
-          backgroundOrigin: "border-box",
-          backgroundSize: "cover",
-          objectFit: "cover",
-          backgroundPosition: "center",
           overflow: "hidden",
         },
 
+        // On mobile, stack vertically and center
         overlayContainer: {
           position: "absolute",
-          bottom: "40px", // ⬅ near footer for mobile view
+          bottom: "60px",
           left: "50%",
           transform: "translateX(-50%)",
           width: "95%",
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          alignItems: "center",
           zIndex: 50,
         },
 
@@ -106,11 +104,10 @@ export const ContactPageStyles = () => {
           position: "relative",
           width: "100%",
           minWidth: "290px",
-          height: "fit-content",
           borderRadius: "30px",
           backgroundColor: "#fff",
+          boxShadow: cardShadow,
           zIndex: 999,
-          boxShadow: "rgba(100, 100, 111, 0.3) 0px 25px 50px 0px",
         },
 
         contactHeaderBox: {
@@ -123,7 +120,7 @@ export const ContactPageStyles = () => {
           borderTopRightRadius: "30px",
           fontSize: "16px",
           color: "#fff",
-          fontWeight: "600",
+          fontWeight: 600,
           padding: "20px",
         },
 
@@ -137,12 +134,12 @@ export const ContactPageStyles = () => {
           borderTopRightRadius: "30px",
           fontSize: "16px",
           color: "#fff",
-          fontWeight: "600",
+          fontWeight: 600,
           padding: "20px",
         },
 
         imageIconStyle: { width: "15px", height: "15px" },
-        contactDataBox: { width: "100%", height: "100%", padding: "15px" },
+        contactDataBox: { width: "100%", padding: "15px" },
         typographyStyles: { color: "#3c3c3c", fontSize: "14px" },
       };
 };
