@@ -26,7 +26,7 @@ export const HeaderStyles = () => {
       // ✅ Mobile: align from the left so the logo sits right after the hamburger
       justifyContent: mobile ? "flex-start" : "space-between",
       // breathing room for CTAs pinned at the right on mobile
-      paddingRight: mobile ? 10 : undefined,
+      paddingRight: mobile ? 4 : undefined,
     },
 
     // 🍔 Hamburger pinned to left on mobile
@@ -47,7 +47,7 @@ export const HeaderStyles = () => {
       display: "flex",
       alignItems: "center",
       // Make room for the hamburger so the logo appears right next to it
-      marginLeft: mobile ? 10 : 0, // tweak to 44/52 if needed
+      marginLeft: mobile ? 4 : 0, // tweak to 44/52 if needed
       flexShrink: 0,               // don’t let it stretch or push
       marginRight: mobile ? "auto" : 0, // keep it left-anchored on mobile
     },
