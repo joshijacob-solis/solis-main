@@ -8,56 +8,69 @@ import gmailIcon from "../../assets/images/gmailIcon.png";
 
 export const ContactPage = () => {
   const contactPageStyle = ContactPageStyles();
-  const emailAddress = "solisgreenenergysolutions@gmail.com";
-  const subject = "";
-  const body = "";
   const matches = useMediaQuery("(max-width:825px)");
-  const composeEmail = () => {
-    const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoLink;
+
+  // ====== Constants (no spaces in phone for links) ======
+  const EMAIL = "solisgreenenergysolutions@gmail.com";
+  const PHONE_DISPLAY = "+91 8301849474";
+  const PHONE_E164 = "+918301849474";          // for tel:
+  const WA_NUMBER = "918301849474";            // for wa.me (no +)
+  const WA_TEXT = encodeURIComponent(
+    "Hi Solis Green Energy Solutions, I'd like a solar quote."
+  );
+  const MAPS_DIRECTIONS =
+    "https://www.google.com/maps/dir/?api=1&destination=" +
+    encodeURIComponent("Solis Green Energy Solutions, Mini Kristal Arcade, Muthoor, Thiruvalla 689107");
+
+  // ====== Optional GA4 via GTM ======
+  const dl = (event, params = {}) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event, ...params });
   };
+
   const openWhatsApp = () => {
-    matches
-      ? window.open(
-          `https://api.whatsapp.com/send?phone=${"+91 8301849474"}`,
-          "_blank"
-        )
-      : window.open(
-          `https://web.whatsapp.com/send?phone=${"+91 8301849474"}`,
-          "_blank"
-        );
+    dl("whatsapp_click", { to: WA_NUMBER });
+    window.open(`https://wa.me/${WA_NUMBER}?text=${WA_TEXT}`, "_blank", "noopener");
   };
+
   const openDialer = () => {
-    window.location.href = `tel:${"+91 8301849474"}`;
+    dl("call_click", { phone: PHONE_E164 });
+    window.location.href = `tel:${PHONE_E164}`;
   };
+
+  const composeEmail = () => {
+    const subject = "";
+    const body = "";
+    const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+  };
+
   const openGoogleMaps = () => {
-    const mapsLink = `https://www.google.com/maps/place/Solis+Green+Energy+Solutions/@9.3924153,76.5408612,13.65z/data=!4m6!3m5!1s0x3b06258569df22ad:0xf94bd683ad5f7ee2!8m2!3d9.395112!4d76.5660969!16s%2Fg%2F11rr45vzg_?entry=ttu`;
-    window.open(mapsLink, "_blank");
+    dl("directions_click", { destination: "Solis Green Energy Solutions" });
+    window.open(MAPS_DIRECTIONS, "_blank", "noopener");
   };
+
   return (
     <Grid sx={contactPageStyle.wrapGridStyle}>
       <MapBackground />
       <Box sx={contactPageStyle.contactBoxStyle}>
         <Box sx={contactPageStyle.contactHeaderBox}>Contact Us</Box>
+
         <Box sx={contactPageStyle.contactDataBox}>
-          <p
+          {/* Location / Directions */}
+          <Box
             role="button"
-            onClick={(e) => {
-              openGoogleMaps();
-            }}
-            style={{ cursor: "pointer" }}
+            onClick={openGoogleMaps}
+            sx={{ cursor: "pointer" }}
+            component="a"
+            href={MAPS_DIRECTIONS}
+            target="_blank"
+            rel="noopener"
           >
-            {" "}
             <Typography variant="h6" sx={contactPageStyle.typographyStyles}>
               <span style={{ display: "flex", alignItems: "center" }}>
-                <img
-                  src={locationIcon}
-                  style={contactPageStyle.imageIconStyle}
-                  alt="locationIcon"
-                />
-                &nbsp;&nbsp;<b>Solis Green Energy Solutions</b>{" "}
+                <img src={locationIcon} style={contactPageStyle.imageIconStyle} alt="location icon" />
+                &nbsp;&nbsp;<b>Solis Green Energy Solutions</b>
               </span>
             </Typography>
             <Typography
@@ -67,69 +80,62 @@ export const ContactPage = () => {
               }}
             >
               Mini Kristal Arcade
-              <br></br> Muthoor P.O, Thiruvalla,
-              <br></br>Pathanamthitta
-              <br></br> Pin: <b>689107</b>
-              <br></br>
-              <br></br>
+              <br /> Muthoor P.O, Thiruvalla,
+              <br /> Pathanamthitta
+              <br /> Pin: <b>689107</b>
+              <br />
+              <br />
             </Typography>
-          </p>
+          </Box>
+
+          {/* Email */}
           <Typography sx={contactPageStyle.typographyStyles}>
-            <p
+            <Box
               role="button"
-              onClick={(e) => {
-                composeEmail();
-              }}
-              style={{ cursor: "pointer" }}
+              onClick={composeEmail}
+              sx={{ cursor: "pointer" }}
+              component="a"
+              href={`mailto:${EMAIL}`}
             >
-              {" "}
               <span style={{ display: "flex", alignItems: "center" }}>
-                <img
-                  src={gmailIcon}
-                  style={contactPageStyle.imageIconStyle}
-                  alt="icon"
-                />
-                &nbsp;&nbsp;<b>Email:&nbsp;</b>{" "}
-                solisgreenenergysolutions@gmail.com
+                <img src={gmailIcon} style={contactPageStyle.imageIconStyle} alt="email icon" />
+                &nbsp;&nbsp;<b>Email:&nbsp;</b> {EMAIL}
               </span>
-            </p>
+            </Box>
           </Typography>
+
+          {/* WhatsApp */}
           <Typography sx={contactPageStyle.typographyStyles}>
-            <p
+            <Box
               role="button"
-              onClick={(e) => {
-                openWhatsApp();
-              }}
-              style={{ cursor: "pointer" }}
+              onClick={openWhatsApp}
+              sx={{ cursor: "pointer" }}
+              component="a"
+              href={`https://wa.me/${WA_NUMBER}?text=${WA_TEXT}`}
+              target="_blank"
+              rel="noopener"
             >
               <span style={{ display: "flex", alignItems: "center" }}>
-                <img
-                  src={whatsAppIcon}
-                  style={contactPageStyle.imageIconStyle}
-                  alt="icon"
-                />
-                &nbsp;&nbsp; <b>WhatsApp:&nbsp;</b> +91 8301849474
+                <img src={whatsAppIcon} style={contactPageStyle.imageIconStyle} alt="whatsapp icon" />
+                &nbsp;&nbsp; <b>WhatsApp:&nbsp;</b> {PHONE_DISPLAY}
               </span>
-            </p>
+            </Box>
           </Typography>
+
+          {/* Phone */}
           <Typography sx={contactPageStyle.typographyStyles}>
-            <p
+            <Box
               role="button"
-              onClick={(e) => {
-                openDialer();
-              }}
-              style={{ cursor: "pointer" }}
+              onClick={openDialer}
+              sx={{ cursor: "pointer" }}
+              component="a"
+              href={`tel:${PHONE_E164}`}
             >
-              {" "}
               <span style={{ display: "flex", alignItems: "center" }}>
-                <img
-                  src={phoneIcon}
-                  style={contactPageStyle.imageIconStyle}
-                  alt="icon"
-                />
-                &nbsp;&nbsp; <b>Quick Contact Phone:&nbsp;</b>+91 8301849474
+                <img src={phoneIcon} style={contactPageStyle.imageIconStyle} alt="phone icon" />
+                &nbsp;&nbsp; <b>Quick Contact Phone:&nbsp;</b>{PHONE_DISPLAY}
               </span>
-            </p>
+            </Box>
           </Typography>
         </Box>
       </Box>
