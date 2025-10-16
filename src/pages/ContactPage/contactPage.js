@@ -22,7 +22,7 @@ export const ContactPage = () => {
   // --- CHANGE THIS to your endpoint ---
   const FORM_ENDPOINT = "https://formspree.io/f/yourid";
 
-  const EMAIL = "solisgreenenergysolutions@gmail.com";
+  const EMAIL = "solisgreenindia@gmail.com";
   const PHONE_DISPLAY = "+91 8301849474";
   const PHONE_E164 = "+918301849474";
   const WA_NUMBER = "918301849474";
@@ -126,7 +126,7 @@ export const ContactPage = () => {
             <Typography sx={s.typographyStyles}>
               <span style={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={openDialer}>
                 <img src={phoneIcon} style={s.imageIconStyle} alt="phone icon" />
-                &nbsp;&nbsp;<b>Quick Contact Phone:&nbsp;</b> {PHONE_DISPLAY}
+                &nbsp;&nbsp;<b>Phone:&nbsp;</b> {PHONE_DISPLAY}
               </span>
             </Typography>
           </Box>
