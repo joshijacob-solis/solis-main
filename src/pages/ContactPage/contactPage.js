@@ -147,12 +147,12 @@ export const ContactPage = () => {
               </Typography>
             </Box>
 
-            {/* Business Hours */}
-            <Box sx={{ mt: 3, p: 2, backgroundColor: 'rgba(0,0,0,0.03)', borderRadius: 1 }}>
-              <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1 }}>
+            {/* Business Hours Section */}
+            <Box sx={s.businessHoursBox}>
+              <Typography sx={s.businessHoursTitle}>
                 Business Hours
               </Typography>
-              <Typography variant="body2">
+              <Typography sx={s.businessHoursText}>
                 Monday - Saturday: 9:00 AM - 6:00 PM<br />
                 Sunday: Closed
               </Typography>
@@ -220,7 +220,7 @@ export const ContactPage = () => {
 
             <select 
               name="service" 
-              style={s.inputStyle}
+              style={s.selectStyle}
               value={formData.service}
               onChange={handleInputChange}
             >
