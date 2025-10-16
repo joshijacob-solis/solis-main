@@ -3,7 +3,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
-// import Drawer from "@mui/material/Drawer";
 import { styled } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 import IconButton from "@mui/material/IconButton";
@@ -12,27 +11,49 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
+import Button from "@mui/material/Button";
+import PhoneIcon from "@mui/icons-material/Phone";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import NearMeIcon from "@mui/icons-material/NearMe";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import { useMediaQuery } from "@mui/material";
+
 import { NavBarLinks } from "../../constants/navBarLinks";
 import Logo from "../../assets/images/solis_logo.png";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import CloseIcon from "@mui/icons-material/Close";
-import { useMediaQuery } from "@mui/material";
-import { HeaderStyles } from "./styles";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import longLogo from "../../assets/images/Solis_Long_Logo.png";
+import CloseIcon from "@mui/icons-material/Close";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { HeaderStyles } from "./styles";
 
 export function Header(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const path = useLocation().pathname;
   const matches = useMediaQuery("(max-width:825px)");
+  const compact = useMediaQuery("(max-width:1024px)");
   const mobileMatches = useMediaQuery("(max-width:500px)");
   const navigate = useNavigate();
 
-  const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
-  };
-  const headerStyles = HeaderStyles();
+  // ---- CTA config ----
+  const PHONE_E164 = "+918301849474";
+  const PHONE_DISPLAY = "+91 8301849474";
+  const WA_NUMBER = "918301849474"; // no +
+  const WA_TEXT = encodeURIComponent("Hi Solis Green Energy, I'd like a solar quote.");
+  const DESTINATION =
+    "Solis Green Energy Solutions, Mini Kristal Arcade, Muthoor, Thiruvalla 689107";
+  const directionsUrl =
+    "https://www.google.com/maps/dir/?api=1&destination=" +
+    encodeURIComponent(DESTINATION);
+
+  const callNow = () => (window.location.href = `tel:${PHONE_E164}`);
+  const openWhatsApp = () =>
+    window.open(`https://wa.me/${WA_NUMBER}?text=${WA_TEXT}`, "_blank", "noopener");
+  const openDirections = () => window.open(directionsUrl, "_blank", "noopener");
+
+  const handleDrawerToggle = () => setMobileOpen((prev) => !prev);
+
+  const s = HeaderStyles();
+
   const Puller = styled(Box)(({ theme }) => ({
     width: 30,
     height: 6,
@@ -42,38 +63,37 @@ export function Header(props) {
     bottom: 8,
     left: "calc(50% - 15px)",
   }));
+
   const drawer = (
     <Box
       onClick={handleDrawerToggle}
-      sx={headerStyles.sideDrawerBoxStyle}
+      sx={s.sideDrawerBoxStyle}
       className="side-drawer-main"
     >
-      <Box sx={headerStyles.sideDrawerImageBoxStyle}>
+      <Box sx={s.sideDrawerImageBoxStyle}>
         <img
-          onClick={(e) => {
-            navigate("/");
-          }}
+          onClick={() => navigate("/")}
           src={longLogo}
           alt="solis-logo"
-          width="250px"
-          height="100px"
-        ></img>
+          width="250"
+          height="100"
+        />
       </Box>
       <Divider />
       <List>
         {NavBarLinks.map((item) => (
           <ListItem key={item.name} disablePadding>
-            <ListItemButton sx={headerStyles.lisItemButtonStyle}>
+            <ListItemButton sx={s.lisItemButtonStyle}>
               <Link
                 to={item.link}
                 style={
                   item.name !== "Home"
                     ? path.includes("/" + item.name.toLowerCase())
-                      ? headerStyles.selectedSideDrawerLinkStyle
-                      : headerStyles.sideDrawerLinkStyle
+                      ? s.selectedSideDrawerLinkStyle
+                      : s.sideDrawerLinkStyle
                     : path === "/"
-                    ? headerStyles.selectedSideDrawerLinkStyle
-                    : headerStyles.sideDrawerLinkStyle
+                    ? s.selectedSideDrawerLinkStyle
+                    : s.sideDrawerLinkStyle
                 }
               >
                 {item.name}
@@ -82,53 +102,58 @@ export function Header(props) {
           </ListItem>
         ))}
       </List>
-      <Box sx={headerStyles.closeButtonStyle}>
+      <Box sx={s.closeButtonStyle}>
         <CloseIcon />
       </Box>
       <Puller />
     </Box>
   );
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={headerStyles.wrapBoxStyle}>
+    <Box sx={s.wrapBoxStyle}>
       <CssBaseline />
       <AppBar
         component="nav"
-        sx={headerStyles.appBarStyles}
+        position="fixed"
+        sx={s.appBarStyles}
         className="app-bar-wrap"
       >
-        <Toolbar sx={headerStyles.toolBarStyles}>
-          <Box sx={headerStyles.logoBoxStyles}>
+        <Toolbar sx={s.toolBarStyles}>
+          {/* Logo */}
+          <Box sx={s.logoBoxStyles}>
             <p
               onClick={(e) => {
                 e.preventDefault();
                 navigate("/");
               }}
               role="button"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", margin: 0 }}
             >
               <img
                 src={Logo}
-                style={{ cursor: "pointer" }}
                 alt="solis-logo"
-                width={matches ? "70px" : "130px"}
-                height={matches ? "70px" : "120px"}
-              ></img>
+                width={matches ? 64 : 92}
+                height={matches ? 64 : 88}
+                style={{ objectFit: "contain" }}
+              />
             </p>
           </Box>
+
+          {/* Mobile menu icon */}
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={headerStyles.iconButtonStyle}
+            sx={s.iconButtonStyle}
           >
             <MenuIcon />
           </IconButton>
-          <Box sx={headerStyles.navLinkBoxStyle}>
+
+          {/* Center nav (hidden on mobile) */}
+          <Box sx={s.navLinkBoxStyle}>
             {NavBarLinks.map((item) => (
               <Link
                 className="nav-links"
@@ -137,38 +162,75 @@ export function Header(props) {
                 style={
                   item.name !== "Home"
                     ? path.includes("/" + item.name.toLowerCase())
-                      ? headerStyles.selectedNavLinkStyle
-                      : headerStyles.navLinkStyles
+                      ? s.selectedNavLinkStyle
+                      : s.navLinkStyles
                     : path === "/"
-                    ? headerStyles.selectedNavLinkStyle
-                    : headerStyles.navLinkStyles
+                    ? s.selectedNavLinkStyle
+                    : s.navLinkStyles
                 }
               >
                 {item.name}
               </Link>
             ))}
           </Box>
+
+          {/* Right CTAs */}
+          <Box sx={s.ctaGroupStyle}>
+            <Button
+              onClick={callNow}
+              color="primary"
+              variant="contained"
+              size="small"
+              startIcon={<PhoneIcon fontSize="small" />}
+              sx={s.ctaButton}
+            >
+              {!compact && "Call Now"}
+            </Button>
+            <Button
+              onClick={openWhatsApp}
+              color="success"
+              variant="contained"
+              size="small"
+              startIcon={<WhatsAppIcon fontSize="small" />}
+              sx={s.ctaButton}
+            >
+              {!compact && "WhatsApp"}
+            </Button>
+            <Button
+              onClick={openDirections}
+              color="warning"
+              variant="contained"
+              size="small"
+              startIcon={<NearMeIcon fontSize="small" />}
+              sx={s.ctaButton}
+            >
+              {!compact && "Directions"}
+            </Button>
+          </Box>
         </Toolbar>
       </AppBar>
+
+      {/* Top Drawer (mobile) */}
       <Box component="nav">
         <SwipeableDrawer
           container={container}
           variant="temporary"
           open={mobileOpen}
           anchor="top"
+          onOpen={() => {}}
           onClose={handleDrawerToggle}
-          swipeAreaWidth={mobileMatches?50:0}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          keepMounted={true}
-          sx={headerStyles.drawerStyles}
+          swipeAreaWidth={mobileMatches ? 50 : 0}
+          ModalProps={{ keepMounted: true }}
+          keepMounted
+          sx={s.drawerStyles}
         >
           {drawer}
         </SwipeableDrawer>
       </Box>
-      <Box component="main" sx={{ p: 3 }}>
-        <Toolbar />
+
+      {/* Spacer for fixed AppBar */}
+      <Box component="main" sx={{ p: 0 }}>
+        <Toolbar sx={{ minHeight: matches ? 56 : 64 }} />
       </Box>
     </Box>
   );
