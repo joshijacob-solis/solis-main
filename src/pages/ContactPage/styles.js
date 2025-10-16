@@ -4,142 +4,151 @@ export const ContactPageStyles = () => {
   const matches = useMediaQuery("(max-width:825px)");
   const cardShadow = "rgba(100, 100, 111, 0.28) 0px 25px 50px 0px";
 
-  return !matches
-    ? {
-        // ===== Desktop (>=825px) =====
-        wrapGridStyle: {
-          width: "100%",
-          minHeight: "100vh",
-          display: "flex",
-          position: "relative",
-          overflow: "hidden",
-        },
+  if (!matches) {
+    // ===== Desktop (>=825px)
+    return {
+      wrapGridStyle: {
+        width: "100%",
+        minHeight: "100vh",
+        display: "flex",
+        position: "relative",
+        overflow: "hidden",
+      },
 
-        // Whole overlay holds both boxes
-        overlayContainer: {
-          position: "absolute",
-          bottom: "80px", // distance from footer
-          left: 0,
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between", // ⬅️ left & right alignment
-          padding: "0 80px", // inner margin from both sides
-          zIndex: 50,
-        },
+      // ABSOLUTE over the map: left & right cards pinned to bottom line
+      overlayContainer: {
+        position: "absolute",
+        bottom: "80px",        // distance above the footer; tweak if needed
+        left: 0,
+        width: "100%",
+        paddingLeft: "80px",   // left inset for the left card
+        paddingRight: "80px",  // right inset for the right card
+        display: "flex",
+        justifyContent: "space-between", // left & right
+        alignItems: "flex-end",
+        gap: "40px",
+        zIndex: 50,            // above map
+        pointerEvents: "none", // so background map can't capture scroll
+      },
 
-        // Shared box style
-        contactBoxStyle: {
-          position: "relative",
-          width: "380px",
-          borderRadius: "30px",
-          backgroundColor: "#fff",
-          boxShadow: cardShadow,
-          zIndex: 999,
-        },
+      // Shared card style
+      contactBoxStyle: {
+        pointerEvents: "auto", // re-enable interactions inside cards
+        position: "relative",
+        width: "380px",
+        borderRadius: "30px",
+        backgroundColor: "#fff",
+        boxShadow: cardShadow,
+        zIndex: 999,
+      },
 
-        // Left: Contact Us header
-        contactHeaderBox: {
-          width: "100%",
-          height: "100px",
-          display: "flex",
-          alignItems: "center",
-          backgroundColor: "rgba(0,0,0,0.5)",
-          borderTopLeftRadius: "30px",
-          borderTopRightRadius: "30px",
-          fontSize: "30px",
-          color: "#fff",
-          fontWeight: 600,
-          padding: "20px",
-        },
+      // Left card header
+      contactHeaderBox: {
+        width: "100%",
+        height: "100px",
+        display: "flex",
+        alignItems: "center",
+        backgroundColor: "rgba(0,0,0,0.5)",
+        borderTopLeftRadius: "30px",
+        borderTopRightRadius: "30px",
+        fontSize: "30px",
+        color: "#fff",
+        fontWeight: 600,
+        padding: "20px",
+      },
 
-        // Right: Form header
-        contactHeaderBoxAccent: {
-          width: "100%",
-          height: "100px",
-          display: "flex",
-          alignItems: "center",
-          backgroundColor: "#f97316", // Accent color
-          borderTopLeftRadius: "30px",
-          borderTopRightRadius: "30px",
-          fontSize: "30px",
-          color: "#fff",
-          fontWeight: 600,
-          padding: "20px",
-        },
+      // Right card header
+      contactHeaderBoxAccent: {
+        width: "100%",
+        height: "100px",
+        display: "flex",
+        alignItems: "center",
+        backgroundColor: "#f97316",
+        borderTopLeftRadius: "30px",
+        borderTopRightRadius: "30px",
+        fontSize: "30px",
+        color: "#fff",
+        fontWeight: 600,
+        padding: "20px",
+      },
 
-        imageIconStyle: { width: "25px", height: "25px" },
-        contactDataBox: { width: "100%", padding: "30px" },
-        typographyStyles: {
-          color: "#3c3c3c",
-          fontSize: "18px",
-          textAlign: "left",
-          marginBottom: "10px",
-        },
-      }
-    : {
-        // ===== Mobile (<825px) =====
-        wrapGridStyle: {
-          width: "100%",
-          minHeight: "100vh",
-          display: "flex",
-          position: "relative",
-          overflow: "hidden",
-        },
+      imageIconStyle: { width: "25px", height: "25px" },
+      contactDataBox: { width: "100%", padding: "30px" },
+      typographyStyles: {
+        color: "#3c3c3c",
+        fontSize: "18px",
+        textAlign: "left",
+        marginBottom: "10px",
+      },
+    };
+  }
 
-        // On mobile, stack vertically and center
-        overlayContainer: {
-          position: "absolute",
-          bottom: "60px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "95%",
-          display: "flex",
-          flexDirection: "column",
-          gap: "20px",
-          alignItems: "center",
-          zIndex: 50,
-        },
+  // ===== Mobile (<825px)
+  return {
+    wrapGridStyle: {
+      width: "100%",
+      minHeight: "100vh",
+      display: "flex",
+      position: "relative",
+      overflow: "hidden",
+    },
 
-        contactBoxStyle: {
-          position: "relative",
-          width: "100%",
-          minWidth: "290px",
-          borderRadius: "30px",
-          backgroundColor: "#fff",
-          boxShadow: cardShadow,
-          zIndex: 999,
-        },
+    // Center near bottom and stack
+    overlayContainer: {
+      position: "absolute",
+      bottom: "60px",
+      left: "50%",
+      transform: "translateX(-50%)",
+      width: "95%",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "stretch",
+      gap: "20px",
+      zIndex: 50,
+      pointerEvents: "none",
+    },
 
-        contactHeaderBox: {
-          width: "100%",
-          height: "80px",
-          display: "flex",
-          alignItems: "center",
-          backgroundColor: "rgba(0,0,0,0.5)",
-          borderTopLeftRadius: "30px",
-          borderTopRightRadius: "30px",
-          fontSize: "16px",
-          color: "#fff",
-          fontWeight: 600,
-          padding: "20px",
-        },
+    contactBoxStyle: {
+      pointerEvents: "auto",
+      position: "relative",
+      width: "100%",
+      minWidth: "290px",
+      borderRadius: "30px",
+      backgroundColor: "#fff",
+      boxShadow: cardShadow,
+      zIndex: 999,
+    },
 
-        contactHeaderBoxAccent: {
-          width: "100%",
-          height: "80px",
-          display: "flex",
-          alignItems: "center",
-          backgroundColor: "#f97316",
-          borderTopLeftRadius: "30px",
-          borderTopRightRadius: "30px",
-          fontSize: "16px",
-          color: "#fff",
-          fontWeight: 600,
-          padding: "20px",
-        },
+    contactHeaderBox: {
+      width: "100%",
+      height: "80px",
+      display: "flex",
+      alignItems: "center",
+      backgroundColor: "rgba(0,0,0,0.5)",
+      borderTopLeftRadius: "30px",
+      borderTopRightRadius: "30px",
+      fontSize: "16px",
+      color: "#fff",
+      fontWeight: 600,
+      padding: "20px",
+    },
 
-        imageIconStyle: { width: "15px", height: "15px" },
-        contactDataBox: { width: "100%", padding: "15px" },
-        typographyStyles: { color: "#3c3c3c", fontSize: "14px" },
-      };
+    contactHeaderBoxAccent: {
+      width: "100%",
+      height: "80px",
+      display: "flex",
+      alignItems: "center",
+      backgroundColor: "#f97316",
+      borderTopLeftRadius: "30px",
+      borderTopRightRadius: "30px",
+      fontSize: "16px",
+      color: "#fff",
+      fontWeight: 600,
+      padding: "20px",
+    },
+
+    imageIconStyle: { width: "15px", height: "15px" },
+    contactDataBox: { width: "100%", padding: "15px" },
+    typographyStyles: { color: "#3c3c3c", fontSize: "14px" },
+  };
 };
