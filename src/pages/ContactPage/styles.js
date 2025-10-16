@@ -3,8 +3,8 @@ import { useMediaQuery } from "@mui/material";
 export const ContactPageStyles = () => {
   const isMobile = useMediaQuery("(max-width:825px)");
 
-  // ⬆️ Increased height by ~10mm (~38px)
-  const CARD_HEIGHT = isMobile ? 1080 : 900;
+  // ⬆️ Increased both card heights by ~30 mm (≈114 px)
+  const CARD_HEIGHT = isMobile ? 1190 : 1010;
 
   return {
     wrapGridStyle: {
@@ -34,7 +34,7 @@ export const ContactPageStyles = () => {
       backgroundColor: "#fff",
       borderRadius: "20px",
       width: isMobile ? "100%" : "46%",
-      height: CARD_HEIGHT, // equal height
+      height: CARD_HEIGHT,
       boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
       display: "flex",
       flexDirection: "column",
@@ -48,6 +48,7 @@ export const ContactPageStyles = () => {
       fontWeight: 700,
       padding: "16px 22px",
       flexShrink: 0,
+      borderBottom: "3px solid #ff6a00",
     },
 
     contactDataBox: {
@@ -89,6 +90,7 @@ export const ContactPageStyles = () => {
       fontSize: isMobile ? 20 : 26,
       padding: "16px 22px",
       flexShrink: 0,
+      borderBottom: "3px solid #ffa54d",
     },
 
     formBodyBox: {
@@ -116,7 +118,7 @@ export const ContactPageStyles = () => {
       border: "1px solid #ccc",
       borderRadius: 10,
       fontSize: 16,
-      minHeight: 200,
+      minHeight: 240,
       resize: "vertical",
       outline: "none",
       width: "100%",
