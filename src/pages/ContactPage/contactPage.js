@@ -1,4 +1,5 @@
-import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
+import { useState } from "react";
+import { Box, Grid, Typography, useMediaQuery, TextField, Button, Alert, Stack } from "@mui/material";
 import { ContactPageStyles } from "./styles";
 import { MapBackground } from "./map";
 import locationIcon from "../../assets/images/locationIcon.png";
@@ -10,14 +11,17 @@ export const ContactPage = () => {
   const contactPageStyle = ContactPageStyles();
   const matches = useMediaQuery("(max-width:825px)");
 
-  // ====== Constants (no spaces in phone for links) ======
+  // ====== Config: change only this to switch destination ======
+  // Formspree example: https://formspree.io/f/xxxxxxx
+  // Apps Script example: https://script.google.com/macros/s/AKfycb.../exec
+  const FORM_ENDPOINT = "https://formspree.io/f/yourid";
+
+  // ====== Contact constants ======
   const EMAIL = "solisgreenenergysolutions@gmail.com";
   const PHONE_DISPLAY = "+91 8301849474";
-  const PHONE_E164 = "+918301849474";          // for tel:
-  const WA_NUMBER = "918301849474";            // for wa.me (no +)
-  const WA_TEXT = encodeURIComponent(
-    "Hi Solis Green Energy Solutions, I'd like a solar quote."
-  );
+  const PHONE_E164 = "+918301849474";
+  const WA_NUMBER = "918301849474";
+  const WA_TEXT = encodeURIComponent("Hi Solis Green Energy Solutions, I'd like a solar quote.");
   const MAPS_DIRECTIONS =
     "https://www.google.com/maps/dir/?api=1&destination=" +
     encodeURIComponent("Solis Green Energy Solutions, Mini Kristal Arcade, Muthoor, Thiruvalla 689107");
@@ -48,6 +52,70 @@ export const ContactPage = () => {
   const openGoogleMaps = () => {
     dl("directions_click", { destination: "Solis Green Energy Solutions" });
     window.open(MAPS_DIRECTIONS, "_blank", "noopener");
+  };
+
+  // ====== Form state ======
+  const [form, setForm] = useState({ name: "", phone: "", email: "", location: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState({ ok: null, msg: "" });
+
+  const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+
+  const isValidPhone = (v) => /^\+?\d[\d\s\-()]{8,}$/.test(v || "");
+  const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v || "");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus({ ok: null, msg: "" });
+
+    // Basic checks
+    if (!form.name || !form.phone || !form.email || !form.location || !form.message) {
+      setStatus({ ok: false, msg: "Please fill all fields." });
+      return;
+    }
+    if (!isValidPhone(form.phone)) {
+      setStatus({ ok: false, msg: "Please enter a valid phone number." });
+      return;
+    }
+    if (!isValidEmail(form.email)) {
+      setStatus({ ok: false, msg: "Please enter a valid email address." });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      // Build form data
+      const fd = new FormData();
+      Object.entries(form).forEach(([k, v]) => fd.append(k, v));
+
+      // Append attribution
+      const params = new URLSearchParams(window.location.search);
+      fd.append("page_url", window.location.href);
+      ["utm_source", "utm_medium", "utm_campaign", "gclid"].forEach((k) => {
+        const val = params.get(k);
+        if (val) fd.append(k, val);
+      });
+
+      const res = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: fd,
+      });
+
+      if (res.ok) {
+        setForm({ name: "", phone: "", email: "", location: "", message: "" });
+        setStatus({ ok: true, msg: "Thanks! We’ll contact you shortly." });
+        dl("generate_lead", { form_id: "contact_page_form", submission_status: "success" });
+      } else {
+        setStatus({ ok: false, msg: "There was an issue sending the form. Please try WhatsApp or Call." });
+        dl("lead_form_error", { form_id: "contact_page_form", error_message: `status_${res.status}` });
+      }
+    } catch (err) {
+      setStatus({ ok: false, msg: "Network error. Please try again or contact us directly." });
+      dl("lead_form_error", { form_id: "contact_page_form", error_message: err?.message || "network_error" });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -137,6 +205,77 @@ export const ContactPage = () => {
               </span>
             </Box>
           </Typography>
+
+          {/* ===================== CONTACT FORM ===================== */}
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1.5, p: 2, border: "1px solid #e2e8f0", borderRadius: "12px", background: "#fff" }}
+          >
+            <Typography variant="h6" sx={{ mb: 1 }}>Request a Callback</Typography>
+
+            <Stack spacing={1.25}>
+              <TextField
+                label="Full Name"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                required
+                size="small"
+              />
+              <TextField
+                label="Phone"
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+                required
+                size="small"
+                placeholder="+91 8281770660"
+              />
+              <TextField
+                label="Email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                required
+                size="small"
+                type="email"
+              />
+              <TextField
+                label="Location (Town / City)"
+                name="location"
+                value={form.location}
+                onChange={handleChange}
+                required
+                size="small"
+              />
+              <TextField
+                label="Message"
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                required
+                size="small"
+                multiline
+                minRows={3}
+                placeholder="Tell us about your roof, load, preferred capacity, etc."
+              />
+
+              {status.ok === true && <Alert severity="success">{status.msg}</Alert>}
+              {status.ok === false && <Alert severity="error">{status.msg}</Alert>}
+
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={submitting}
+                sx={{ fontWeight: 700 }}
+              >
+                {submitting ? "Sending..." : "Submit Request"}
+              </Button>
+            </Stack>
+          </Box>
+          {/* =================== END CONTACT FORM =================== */}
         </Box>
       </Box>
     </Grid>
