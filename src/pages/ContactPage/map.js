@@ -18,13 +18,11 @@ export const MapBackground = () => {
   return (
     <div
       style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
         width: "100%",
         height: "100%",
         overflow: "hidden",
-        zIndex: 1,
+        borderRadius: "0 0 20px 20px", // matches your box radius
+        zIndex: 2,
       }}
     >
       <MapContainer
@@ -33,12 +31,12 @@ export const MapBackground = () => {
         style={{
           width: "100%",
           height: "100%",
-          filter: "brightness(95%)", // slightly dim for better contrast with white boxes
+          filter: "brightness(97%)", // mild dim for clarity
         }}
         scrollWheelZoom={false}
-        dragging={false}
         doubleClickZoom={false}
         zoomControl={false}
+        dragging={false}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
