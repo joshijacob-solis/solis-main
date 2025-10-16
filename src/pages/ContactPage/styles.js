@@ -3,8 +3,7 @@ import { useMediaQuery } from "@mui/material";
 export const ContactPageStyles = () => {
   const isMobile = useMediaQuery("(max-width:825px)");
 
-  // Tall, equal cards; + sticky button inside a scrollable body
-  const CARD_HEIGHT = isMobile ? 1200 : 1000;
+  const CARD_HEIGHT = isMobile ? 1100 : 720;
 
   return {
     wrapGridStyle: {
@@ -12,134 +11,131 @@ export const ContactPageStyles = () => {
       height: "100vh",
       position: "relative",
       display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
     },
 
     containerGrid: {
-      position: "absolute",
-      bottom: isMobile ? "7%" : "8%", // lift cards so tall heights don’t clip
-      left: "50%",
-      transform: "translateX(-50%)",
       display: "flex",
       flexDirection: isMobile ? "column" : "row",
-      gap: isMobile ? "22px" : "32px",
-      width: isMobile ? "94%" : "86%",
-      zIndex: 999,
+      width: isMobile ? "95%" : "90%",
+      justifyContent: "space-between",
       alignItems: "stretch",
+      gap: isMobile ? "20px" : "30px",
+      margin: "auto",
+      flexWrap: "wrap",
     },
 
-    // ========== CONTACT CARD ==========
-    contactBoxStyle: {
-      backgroundColor: "#fff",
-      borderRadius: "20px",
-      width: isMobile ? "100%" : "46%",
-      height: CARD_HEIGHT,
-      display: "flex",
-      flexDirection: "column",
-      boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
-      overflow: "hidden",
-    },
-
-    contactHeaderBox: {
+    // 🔹 Common Header
+    headerBox: {
       backgroundColor: "#5c5c5c",
       color: "#fff",
       fontWeight: 700,
-      fontSize: isMobile ? 20 : 24,
-      padding: "16px 22px",
-      borderBottom: "3px solid #ff6a00",
-      flexShrink: 0,
+      fontSize: isMobile ? "20px" : "22px",
+      padding: "14px 20px",
+      borderRadius: "20px 20px 0 0",
+    },
+    headerBoxOrange: {
+      backgroundColor: "#ff6a00",
+      color: "#fff",
+      fontWeight: 700,
+      fontSize: isMobile ? "20px" : "22px",
+      padding: "14px 20px",
+      borderRadius: "20px 20px 0 0",
     },
 
-    // scrollable body so long contact info never pushes outside the card
-    contactBodyScroll: {
-      padding: "24px 26px",
-      overflowY: "auto",
+    // 🔹 1️⃣ Contact Box
+    contactBoxStyle: {
+      backgroundColor: "#fff",
+      borderRadius: "20px",
+      width: isMobile ? "100%" : "32%",
+      height: CARD_HEIGHT,
+      boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+      display: "flex",
+      flexDirection: "column",
+      overflow: "hidden",
+    },
+    bodyBox: {
+      padding: "24px",
       flex: 1,
-      minHeight: 0,
+      overflowY: "auto",
+    },
+    typographyStyles: {
+      fontSize: isMobile ? 15 : 16,
+      color: "#333",
+      marginBottom: "14px",
+      display: "flex",
+      alignItems: "center",
+      cursor: "pointer",
+    },
+    imageIconStyle: {
+      width: isMobile ? 18 : 22,
+      height: isMobile ? 18 : 22,
     },
 
-    imageIconStyle: { width: isMobile ? 18 : 22, height: isMobile ? 18 : 22 },
-    typographyStyles: { color: "#3c3c3c", fontSize: isMobile ? 15 : 16, marginBottom: "12px" },
+    // 🔹 2️⃣ Map Box
+    mapBoxStyle: {
+      backgroundColor: "#fff",
+      borderRadius: "20px",
+      width: isMobile ? "100%" : "32%",
+      height: CARD_HEIGHT,
+      boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+      display: "flex",
+      flexDirection: "column",
+      overflow: "hidden",
+    },
+    mapContainer: {
+      flex: 1,
+      height: "100%",
+      width: "100%",
+    },
 
-    // ========== FORM CARD ==========
+    // 🔹 3️⃣ Form Box
     formBoxStyle: {
       backgroundColor: "#fff",
       borderRadius: "20px",
-      width: isMobile ? "100%" : "46%",
-      height: CARD_HEIGHT, // EXACT same as contact card
+      width: isMobile ? "100%" : "32%",
+      height: CARD_HEIGHT,
+      boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
       display: "flex",
       flexDirection: "column",
-      boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
       overflow: "hidden",
     },
-
-    formHeaderBox: {
-      backgroundColor: "#ff6a00",
-      color: "#fff",
-      fontWeight: 800,
-      fontSize: isMobile ? 20 : 24,
-      padding: "16px 22px",
-      borderBottom: "3px solid #ffa54d",
-      flexShrink: 0,
-    },
-
-    // 👇 THIS is the scroll container; footer inside is sticky
-    formBodyScroll: {
+    formBodyBox: {
       display: "flex",
       flexDirection: "column",
-      gap: 14,
-      padding: "22px 26px 110px", // extra bottom space under fields (footer height)
-      overflowY: "auto",
+      gap: "16px",
+      padding: "24px",
       flex: 1,
-      minHeight: 0,
-      position: "relative",
+      overflowY: "auto",
     },
-
-    // inputs
     inputStyle: {
-      padding: "14px 16px",
+      padding: "12px 14px",
       border: "1px solid #ccc",
-      borderRadius: 10,
-      fontSize: 16,
+      borderRadius: "10px",
+      fontSize: "16px",
       outline: "none",
       width: "100%",
-      background: "#fff",
     },
     textareaStyle: {
-      padding: "14px 16px",
+      padding: "12px 14px",
       border: "1px solid #ccc",
-      borderRadius: 10,
-      fontSize: 16,
-      minHeight: 220,
-      resize: "vertical",
+      borderRadius: "10px",
+      fontSize: "16px",
       outline: "none",
       width: "100%",
-      background: "#fff",
+      minHeight: "160px",
+      resize: "vertical",
     },
-
-    // sticky footer inside scroll container
-    stickyFooter: {
-      position: "sticky",
-      bottom: 0,
-      left: 0,
-      right: 0,
-      paddingTop: 12,
-      marginTop: 12,
-      background:
-        "linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,0.75) 40%, #ffffff 70%)",
-      backdropFilter: "saturate(180%) blur(2px)",
-      paddingBottom: 10,
-    },
-
     submitButtonStyle: {
-      width: "100%",
       backgroundColor: "#ff6a00",
       color: "#fff",
-      fontWeight: 800,
-      fontSize: 16,
+      fontWeight: "bold",
+      fontSize: "16px",
+      padding: "12px",
+      borderRadius: "10px",
       textTransform: "none",
-      padding: "14px 18px",
-      borderRadius: 10,
-      boxShadow: "0 10px 24px rgba(255,106,0,0.25)",
+      boxShadow: "0 6px 16px rgba(255,106,0,0.3)",
       "&:hover": { backgroundColor: "#e85e00" },
     },
   };
