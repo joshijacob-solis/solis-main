@@ -38,8 +38,7 @@ export const ContactPage = () => {
         <Box sx={s.contactBoxStyle}>
           <Box sx={s.contactHeaderBox}>Contact Us</Box>
 
-          {/* scrollable content so the card can be taller on mobile but never cut off */}
-          <Box sx={s.contactScrollArea}>
+          <Box sx={s.contactDataBox}>
             <Typography
               variant="h6"
               sx={s.typographyStyles}
@@ -61,25 +60,37 @@ export const ContactPage = () => {
             </Typography>
 
             <Typography sx={s.typographyStyles}>
-              <span style={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={composeEmail}>
+              <span
+                style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+                onClick={composeEmail}
+              >
                 <img src={gmailIcon} style={s.imageIconStyle} alt="email" />
                 &nbsp;&nbsp;<b>Email:</b>&nbsp;solisgreenindia@gmail.com
               </span>
             </Typography>
 
             <Typography sx={s.typographyStyles}>
-              <span style={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={openWhatsApp}>
+              <span
+                style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+                onClick={openWhatsApp}
+              >
                 <img src={whatsAppIcon} style={s.imageIconStyle} alt="whatsapp" />
                 &nbsp;&nbsp;<b>WhatsApp:</b>&nbsp;+91 8301849474
               </span>
             </Typography>
 
             <Typography sx={s.typographyStyles}>
-              <span style={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={openDialer}>
+              <span
+                style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+                onClick={openDialer}
+              >
                 <img src={phoneIcon} style={s.imageIconStyle} alt="phone" />
                 &nbsp;&nbsp;<b>Phone:</b>&nbsp;+91 8301849474
               </span>
             </Typography>
+
+            {/* spacer to balance with form card */}
+            <Box sx={{ flexGrow: 1 }} />
           </Box>
         </Box>
 
@@ -87,21 +98,19 @@ export const ContactPage = () => {
         <Box sx={s.formBoxStyle}>
           <Box sx={s.formHeaderBox}>Request a Callback</Box>
 
-          {/* scrollable body + sticky submit at bottom */}
+          {/* Flex column: fields -> spacer -> button (always visible) */}
           <Box component="form" onSubmit={handleSubmit} sx={s.formBodyBox}>
-            <Box sx={s.formFieldsArea}>
-              <input type="text" name="name" placeholder="Full Name *" required style={s.inputStyle} />
-              <input type="tel" name="phone" placeholder="Phone *" required style={s.inputStyle} />
-              <input type="email" name="email" placeholder="Email (optional)" style={s.inputStyle} />
-              <textarea name="message" placeholder="Message (optional)" style={s.textareaStyle} />
-            </Box>
+            <input type="text" name="name" placeholder="Full Name * *" required style={s.inputStyle} />
+            <input type="tel" name="phone" placeholder="Phone * *" required style={s.inputStyle} />
+            <input type="email" name="email" placeholder="Email (optional)" style={s.inputStyle} />
+            <textarea name="message" placeholder="Message (optional)" style={s.textareaStyle} />
 
-            {/* sticky footer keeps button always visible */}
-            <Box sx={s.formFooterSticky}>
-              <Button type="submit" variant="contained" sx={s.submitButtonStyle}>
-                Submit Request
-              </Button>
-            </Box>
+            {/* this spacer pushes the button to the bottom but keeps it visible */}
+            <Box sx={{ flexGrow: 1, minHeight: 0 }} />
+
+            <Button type="submit" variant="contained" sx={s.submitButtonStyle}>
+              Submit Request
+            </Button>
           </Box>
         </Box>
       </Box>
