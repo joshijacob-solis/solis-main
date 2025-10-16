@@ -3,16 +3,26 @@ import { useMediaQuery } from "@mui/material";
 export const ContactPageStyles = () => {
   const isMobile = useMediaQuery("(max-width:825px)");
 
-  const CARD_HEIGHT = isMobile ? 1100 : 720;
+  // Heights (map is slightly taller)
+  const CONTACT_HEIGHT = isMobile ? 1000 : 720;
+  const MAP_HEIGHT = isMobile ? 1000 : 850;
+  const FORM_HEIGHT = isMobile ? 1000 : 720;
+
+  const hoverEffect = {
+    transform: "translateY(-8px)",
+    boxShadow: "0 16px 30px rgba(0,0,0,0.25)",
+    transition: "all 0.3s ease-in-out",
+  };
 
   return {
     wrapGridStyle: {
       width: "100%",
-      height: "100vh",
-      position: "relative",
+      minHeight: "100vh",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
+      backgroundColor: "#fafafa",
+      padding: isMobile ? "20px 0" : "50px 0",
     },
 
     containerGrid: {
@@ -22,11 +32,10 @@ export const ContactPageStyles = () => {
       justifyContent: "space-between",
       alignItems: "stretch",
       gap: isMobile ? "20px" : "30px",
-      margin: "auto",
       flexWrap: "wrap",
     },
 
-    // 🔹 Common Header
+    // 🔹 Common Header Styles
     headerBox: {
       backgroundColor: "#5c5c5c",
       color: "#fff",
@@ -49,11 +58,13 @@ export const ContactPageStyles = () => {
       backgroundColor: "#fff",
       borderRadius: "20px",
       width: isMobile ? "100%" : "32%",
-      height: CARD_HEIGHT,
+      height: CONTACT_HEIGHT,
       boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
+      transition: "all 0.3s ease-in-out",
+      "&:hover": hoverEffect,
     },
     bodyBox: {
       padding: "24px",
@@ -67,27 +78,33 @@ export const ContactPageStyles = () => {
       display: "flex",
       alignItems: "center",
       cursor: "pointer",
+      transition: "color 0.2s ease-in-out",
+      "&:hover": { color: "#ff6a00" },
     },
     imageIconStyle: {
       width: isMobile ? 18 : 22,
       height: isMobile ? 18 : 22,
     },
 
-    // 🔹 2️⃣ Map Box
+    // 🔹 2️⃣ Map Box (taller)
     mapBoxStyle: {
       backgroundColor: "#fff",
       borderRadius: "20px",
       width: isMobile ? "100%" : "32%",
-      height: CARD_HEIGHT,
+      height: MAP_HEIGHT,
       boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
+      transition: "all 0.3s ease-in-out",
+      "&:hover": hoverEffect,
     },
     mapContainer: {
       flex: 1,
       height: "100%",
       width: "100%",
+      borderRadius: "0 0 20px 20px",
+      overflow: "hidden",
     },
 
     // 🔹 3️⃣ Form Box
@@ -95,11 +112,13 @@ export const ContactPageStyles = () => {
       backgroundColor: "#fff",
       borderRadius: "20px",
       width: isMobile ? "100%" : "32%",
-      height: CARD_HEIGHT,
+      height: FORM_HEIGHT,
       boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
+      transition: "all 0.3s ease-in-out",
+      "&:hover": hoverEffect,
     },
     formBodyBox: {
       display: "flex",
@@ -116,6 +135,11 @@ export const ContactPageStyles = () => {
       fontSize: "16px",
       outline: "none",
       width: "100%",
+      transition: "border-color 0.2s ease-in-out",
+      "&:focus": {
+        borderColor: "#ff6a00",
+        boxShadow: "0 0 6px rgba(255,106,0,0.3)",
+      },
     },
     textareaStyle: {
       padding: "12px 14px",
@@ -126,6 +150,11 @@ export const ContactPageStyles = () => {
       width: "100%",
       minHeight: "160px",
       resize: "vertical",
+      transition: "border-color 0.2s ease-in-out",
+      "&:focus": {
+        borderColor: "#ff6a00",
+        boxShadow: "0 0 6px rgba(255,106,0,0.3)",
+      },
     },
     submitButtonStyle: {
       backgroundColor: "#ff6a00",
@@ -136,7 +165,12 @@ export const ContactPageStyles = () => {
       borderRadius: "10px",
       textTransform: "none",
       boxShadow: "0 6px 16px rgba(255,106,0,0.3)",
-      "&:hover": { backgroundColor: "#e85e00" },
+      transition: "all 0.3s ease-in-out",
+      "&:hover": {
+        backgroundColor: "#e85e00",
+        transform: "translateY(-3px)",
+        boxShadow: "0 10px 24px rgba(255,106,0,0.4)",
+      },
     },
   };
 };
