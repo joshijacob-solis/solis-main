@@ -89,7 +89,6 @@ export const ContactPage = () => {
               </span>
             </Typography>
 
-            {/* spacer to balance with form card */}
             <Box sx={{ flexGrow: 1 }} />
           </Box>
         </Box>
@@ -98,14 +97,33 @@ export const ContactPage = () => {
         <Box sx={s.formBoxStyle}>
           <Box sx={s.formHeaderBox}>Request a Callback</Box>
 
-          {/* Flex column: fields -> spacer -> button (always visible) */}
           <Box component="form" onSubmit={handleSubmit} sx={s.formBodyBox}>
-            <input type="text" name="name" placeholder="Full Name * *" required style={s.inputStyle} />
-            <input type="tel" name="phone" placeholder="Phone * *" required style={s.inputStyle} />
-            <input type="email" name="email" placeholder="Email (optional)" style={s.inputStyle} />
-            <textarea name="message" placeholder="Message (optional)" style={s.textareaStyle} />
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name *"
+              required
+              style={s.inputStyle}
+            />
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Phone *"
+              required
+              style={s.inputStyle}
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email (optional)"
+              style={s.inputStyle}
+            />
+            <textarea
+              name="message"
+              placeholder="Message (optional)"
+              style={s.textareaStyle}
+            ></textarea>
 
-            {/* this spacer pushes the button to the bottom but keeps it visible */}
             <Box sx={{ flexGrow: 1, minHeight: 0 }} />
 
             <Button type="submit" variant="contained" sx={s.submitButtonStyle}>
