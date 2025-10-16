@@ -1,14 +1,23 @@
 import { Box, Grid, Typography, Button, useMediaQuery } from "@mui/material";
 import { ContactPageStyles } from "./styles";
-import { MapBackground } from "./map";
 import locationIcon from "../../assets/images/locationIcon.png";
 import phoneIcon from "../../assets/images/phoneIcon.png";
 import whatsAppIcon from "../../assets/images/whatsAppIcon.png";
 import gmailIcon from "../../assets/images/gmailIcon.png";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 
 export const ContactPage = () => {
   const s = ContactPageStyles();
   const matches = useMediaQuery("(max-width:825px)");
+
+  const solisPosition = [9.395112, 76.5660969]; // Solis Green coordinates
+
+  const icon = L.icon({
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+    iconSize: [40, 40],
+  });
 
   const composeEmail = () => (window.location.href = `mailto:solisgreenindia@gmail.com`);
   const openWhatsApp = () => {
@@ -18,11 +27,6 @@ export const ContactPage = () => {
     window.open(url, "_blank");
   };
   const openDialer = () => (window.location.href = "tel:+918301849474");
-  const openGoogleMaps = () =>
-    window.open(
-      "https://www.google.com/maps/place/Solis+Green+Energy+Solutions/@9.3924153,76.5408612,13.65z/data=!4m6!3m5!1s0x3b06258569df22ad:0xf94bd683ad5f7ee2!8m2!3d9.395112!4d76.5660969!16s%2Fg%2F11rr45vzg_",
-      "_blank"
-    );
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,26 +35,15 @@ export const ContactPage = () => {
 
   return (
     <Grid sx={s.wrapGridStyle}>
-      <MapBackground />
-
       <Box sx={s.containerGrid}>
-        {/* LEFT: CONTACT CARD */}
+        {/* 1️⃣ CONTACT BOX */}
         <Box sx={s.contactBoxStyle}>
-          <Box sx={s.contactHeaderBox}>Contact Us</Box>
-
-          <Box sx={s.contactBodyScroll}>
-            <Typography
-              variant="h6"
-              sx={s.typographyStyles}
-              onClick={openGoogleMaps}
-              style={{ cursor: "pointer" }}
-            >
-              <span style={{ display: "flex", alignItems: "center" }}>
-                <img src={locationIcon} style={s.imageIconStyle} alt="location" />
-                &nbsp;&nbsp;<b>Solis Green Energy Solutions</b>
-              </span>
+          <Box sx={s.headerBox}>Contact Us</Box>
+          <Box sx={s.bodyBox}>
+            <Typography variant="h6" sx={s.typographyStyles}>
+              <img src={locationIcon} style={s.imageIconStyle} alt="location" /> &nbsp;
+              <b>Solis Green Energy Solutions</b>
             </Typography>
-
             <Typography sx={s.typographyStyles}>
               Mini Kristal Arcade, Muthoor P.O, Thiruvalla,
               <br />
@@ -58,47 +51,50 @@ export const ContactPage = () => {
               <br />
               Pin: <b>689107</b>
             </Typography>
-
-            <Typography sx={s.typographyStyles}>
-              <span style={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={composeEmail}>
-                <img src={gmailIcon} style={s.imageIconStyle} alt="email" />
-                &nbsp;&nbsp;<b>Email:</b>&nbsp;solisgreenindia@gmail.com
-              </span>
+            <Typography sx={s.typographyStyles} onClick={composeEmail}>
+              <img src={gmailIcon} style={s.imageIconStyle} alt="email" /> &nbsp;
+              <b>Email:</b> solisgreenindia@gmail.com
             </Typography>
-
-            <Typography sx={s.typographyStyles}>
-              <span style={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={openWhatsApp}>
-                <img src={whatsAppIcon} style={s.imageIconStyle} alt="whatsapp" />
-                &nbsp;&nbsp;<b>WhatsApp:</b>&nbsp;+91 8301849474
-              </span>
+            <Typography sx={s.typographyStyles} onClick={openWhatsApp}>
+              <img src={whatsAppIcon} style={s.imageIconStyle} alt="whatsapp" /> &nbsp;
+              <b>WhatsApp:</b> +91 8301849474
             </Typography>
-
-            <Typography sx={s.typographyStyles}>
-              <span style={{ display: "flex", alignItems: "center", cursor: "pointer" }} onClick={openDialer}>
-                <img src={phoneIcon} style={s.imageIconStyle} alt="phone" />
-                &nbsp;&nbsp;<b>Phone:</b>&nbsp;+91 8301849474
-              </span>
+            <Typography sx={s.typographyStyles} onClick={openDialer}>
+              <img src={phoneIcon} style={s.imageIconStyle} alt="phone" /> &nbsp;
+              <b>Phone:</b> +91 8301849474
             </Typography>
           </Box>
         </Box>
 
-        {/* RIGHT: FORM CARD */}
+        {/* 2️⃣ MAP BOX */}
+        <Box sx={s.mapBoxStyle}>
+          <Box sx={s.headerBox}>Locate Us</Box>
+          <Box sx={s.mapContainer}>
+            <MapContainer
+              center={solisPosition}
+              zoom={13}
+              style={{ height: "100%", width: "100%", borderRadius: "0 0 20px 20px" }}
+              scrollWheelZoom={false}
+            >
+              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+              <Marker position={solisPosition} icon={icon}>
+                <Popup>Solis Green Energy Solutions, Thiruvalla</Popup>
+              </Marker>
+            </MapContainer>
+          </Box>
+        </Box>
+
+        {/* 3️⃣ FORM BOX */}
         <Box sx={s.formBoxStyle}>
-          <Box sx={s.formHeaderBox}>Request a Callback</Box>
-
-          {/* SCROLL CONTAINER with sticky footer */}
-          <Box component="form" onSubmit={handleSubmit} sx={s.formBodyScroll}>
-            <input type="text" name="name" placeholder="Full Name * *" required style={s.inputStyle} />
-            <input type="tel" name="phone" placeholder="Phone * *" required style={s.inputStyle} />
+          <Box sx={s.headerBoxOrange}>Request a Callback</Box>
+          <Box component="form" onSubmit={handleSubmit} sx={s.formBodyBox}>
+            <input type="text" name="name" placeholder="Full Name *" required style={s.inputStyle} />
+            <input type="tel" name="phone" placeholder="Phone *" required style={s.inputStyle} />
             <input type="email" name="email" placeholder="Email (optional)" style={s.inputStyle} />
-            <textarea name="message" placeholder="Message (optional)" style={s.textareaStyle} />
-
-            {/* Sticky footer keeps button always visible */}
-            <Box sx={s.stickyFooter}>
-              <Button type="submit" variant="contained" sx={s.submitButtonStyle}>
-                Submit Request
-              </Button>
-            </Box>
+            <textarea name="message" placeholder="Message (optional)" style={s.textareaStyle}></textarea>
+            <Button type="submit" variant="contained" sx={s.submitButtonStyle}>
+              Submit Request
+            </Button>
           </Box>
         </Box>
       </Box>
