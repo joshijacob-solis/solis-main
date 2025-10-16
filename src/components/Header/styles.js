@@ -3,7 +3,7 @@ import { useMediaQuery } from "@mui/material";
 export const HeaderStyles = () => {
   const mobile = useMediaQuery("(max-width:825px)");
 
-  // Square size for icon-only CTA buttons
+  // Round, icon-only CTA size
   const ctaSize = mobile ? 36 : 40;
 
   return {
@@ -23,9 +23,9 @@ export const HeaderStyles = () => {
       alignItems: "center",
       gap: "12px",
       position: "relative",
-      // ✅ Mobile: align from the left so logo appears right after hamburger
+      // ✅ Mobile: align from the left so the logo sits right after the hamburger
       justifyContent: mobile ? "flex-start" : "space-between",
-      // Small right padding so right-pinned CTAs have room
+      // breathing room for CTAs pinned at the right on mobile
       paddingRight: mobile ? 48 : undefined,
     },
 
@@ -42,12 +42,14 @@ export const HeaderStyles = () => {
         }
       : { display: "none" },
 
-    // 🔆 Logo sits immediately after the hamburger on mobile
+    // 🔆 Logo sits immediately after hamburger on mobile
     logoBoxStyles: {
       display: "flex",
       alignItems: "center",
-      marginLeft: mobile ? 44 : 0, // make room for hamburger
-      flexShrink: 0,
+      // Make room for the hamburger so the logo appears right next to it
+      marginLeft: mobile ? 48 : 0, // tweak to 44/52 if needed
+      flexShrink: 0,               // don’t let it stretch or push
+      marginRight: mobile ? "auto" : 0, // keep it left-anchored on mobile
     },
 
     // Center nav hidden on mobile
@@ -73,7 +75,8 @@ export const HeaderStyles = () => {
       opacity: 1,
     },
 
-    // 📞 CTAs: icon-only, equal square buttons; pinned right on mobile, normal on desktop
+    // 📞 CTAs: icon-only, equal size, circular
+    // Mobile: pinned right; Desktop: normal right-aligned
     ctaGroupStyle: mobile
       ? {
           position: "absolute",
@@ -88,21 +91,18 @@ export const HeaderStyles = () => {
       : {
           display: "flex",
           alignItems: "center",
-          gap: "8px",
+          gap: "10px",
           marginLeft: "auto",
         },
 
     ctaButton: {
-      // icon-only square button
       minWidth: ctaSize,
       width: ctaSize,
       height: ctaSize,
       padding: 0,
-      borderRadius: 10,
+      borderRadius: "50%", // ⬅ round buttons
       boxShadow: "0 6px 12px rgba(0,0,0,0.08)",
-      ".MuiButton-startIcon": {
-        margin: 0,
-      },
+      ".MuiButton-startIcon": { margin: 0 },
       "& svg": { fontSize: mobile ? "18px" : "20px" },
     },
 
