@@ -1,5 +1,5 @@
 import { Box, Grid, Typography, Button, useMediaQuery, Snackbar, Alert } from "@mui/material";
-import { ContactPageStyles } from "./styles";
+import { ContactPageStyles } from "./ContactPageStyles";
 import locationIcon from "../../assets/images/locationIcon.png";
 import phoneIcon from "../../assets/images/phoneIcon.png";
 import whatsAppIcon from "../../assets/images/whatsAppIcon.png";
