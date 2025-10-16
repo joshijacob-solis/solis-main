@@ -1,25 +1,26 @@
 import { useMediaQuery } from "@mui/material";
 
 export const HeaderStyles = () => {
-  const matches = useMediaQuery("(max-width:825px)");
+  const mobile = useMediaQuery("(max-width:825px)");
 
   return {
     wrapBoxStyle: { flexGrow: 1 },
 
     appBarStyles: {
-      bgcolor: "rgba(255,255,255,0.92)",
+      bgcolor: "rgba(255,255,255,0.94)",
       color: "#111",
       backdropFilter: "saturate(180%) blur(8px)",
       boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
     },
 
     toolBarStyles: {
-      minHeight: matches ? 56 : 64,
-      px: matches ? 1 : 2,
+      minHeight: mobile ? 56 : 64,
+      px: mobile ? 1 : 2,
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
       gap: "12px",
+      position: "relative", // needed to pin CTAs on mobile
     },
 
     logoBoxStyles: {
@@ -28,16 +29,16 @@ export const HeaderStyles = () => {
       mr: 1,
     },
 
-    // Mobile menu icon visible only on <=825px
+    // Hamburger visible only on mobile
     iconButtonStyle: {
       color: "#111",
-      display: matches ? "inline-flex" : "none",
+      display: mobile ? "inline-flex" : "none",
       ml: 0.5,
     },
 
-    // Center nav (hidden on mobile)
+    // Center nav hidden on mobile
     navLinkBoxStyle: {
-      display: matches ? "none" : "flex",
+      display: mobile ? "none" : "flex",
       alignItems: "center",
       gap: "26px",
       mx: 2,
@@ -58,22 +59,40 @@ export const HeaderStyles = () => {
       opacity: 1,
     },
 
-    // CTA buttons (always visible; icons-only on medium screens using component logic)
-    ctaGroupStyle: {
-      display: "flex",
-      alignItems: "center",
-      gap: "8px",
-      ml: "auto",
-    },
+    // CTA buttons are permanent.
+    // On mobile: icon-only, pinned at right & vertically centered.
+    ctaGroupStyle: mobile
+      ? {
+          position: "absolute",
+          right: 8,
+          top: "50%",
+          transform: "translateY(-50%)",
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+          zIndex: 1,
+        }
+      : {
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          ml: "auto",
+        },
+
     ctaButton: {
       textTransform: "none",
       fontWeight: 800,
       borderRadius: "10px",
-      px: 1.25,
+      px: mobile ? 0.75 : 1.25,
+      minWidth: mobile ? 36 : 0, // icon-only on mobile
       boxShadow: "0 6px 12px rgba(0,0,0,0.08)",
+      ".MuiButton-startIcon": {
+        marginRight: mobile ? 0 : 8,
+      },
+      "& svg": { fontSize: mobile ? "18px" : "20px" },
     },
 
-    // Drawer styles
+    // Drawer
     drawerStyles: {
       "& .MuiDrawer-paper": {
         height: "auto",
