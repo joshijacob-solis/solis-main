@@ -34,21 +34,15 @@ export function Header(props) {
   const mobileMatches = useMediaQuery("(max-width:500px)");
   const navigate = useNavigate();
 
-  // ---- CTA config ----
+  // ---- Contact Info ----
   const PHONE_E164 = "+918301849474";
-  const PHONE_DISPLAY = "+91 8301849474";
   const WA_NUMBER = "918301849474"; // no +
   const WA_TEXT = encodeURIComponent("Hi Solis Green Energy, I'd like a solar quote.");
   const DESTINATION =
     "Solis Green Energy Solutions, Mini Kristal Arcade, Muthoor, Thiruvalla 689107";
   const directionsUrl =
-    "https://www.google.com/maps/dir/?api=1&destination=" +
-    encodeURIComponent(DESTINATION);
-
-  const callNow = () => (window.location.href = `tel:${PHONE_E164}`);
-  const openWhatsApp = () =>
-    window.open(`https://wa.me/${WA_NUMBER}?text=${WA_TEXT}`, "_blank", "noopener");
-  const openDirections = () => window.open(directionsUrl, "_blank", "noopener");
+    "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(DESTINATION);
+  const whatsappUrl = `https://wa.me/${WA_NUMBER}?text=${WA_TEXT}`;
 
   const handleDrawerToggle = () => setMobileOpen((prev) => !prev);
 
@@ -65,11 +59,7 @@ export function Header(props) {
   }));
 
   const drawer = (
-    <Box
-      onClick={handleDrawerToggle}
-      sx={s.sideDrawerBoxStyle}
-      className="side-drawer-main"
-    >
+    <Box onClick={handleDrawerToggle} sx={s.sideDrawerBoxStyle} className="side-drawer-main">
       <Box sx={s.sideDrawerImageBoxStyle}>
         <img
           onClick={() => navigate("/")}
@@ -77,6 +67,7 @@ export function Header(props) {
           alt="solis-logo"
           width="250"
           height="100"
+          style={{ cursor: "pointer" }}
         />
       </Box>
       <Divider />
@@ -117,7 +108,10 @@ export function Header(props) {
       <AppBar
         component="nav"
         position="fixed"
-        sx={s.appBarStyles}
+        sx={(theme) => ({
+          ...s.appBarStyles,
+          zIndex: theme.zIndex.modal + 1, // ⬅ ensure header is above everything
+        })}
         className="app-bar-wrap"
       >
         <Toolbar sx={s.toolBarStyles}>
@@ -141,7 +135,7 @@ export function Header(props) {
             </p>
           </Box>
 
-          {/* Mobile menu icon */}
+          {/* Hamburger Menu */}
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -152,7 +146,7 @@ export function Header(props) {
             <MenuIcon />
           </IconButton>
 
-          {/* Center nav (hidden on mobile) */}
+          {/* Nav Links */}
           <Box sx={s.navLinkBoxStyle}>
             {NavBarLinks.map((item) => (
               <Link
@@ -174,10 +168,10 @@ export function Header(props) {
             ))}
           </Box>
 
-          {/* Right CTAs */}
+          {/* CTA Buttons — use native links for bulletproof clicks */}
           <Box sx={s.ctaGroupStyle}>
             <Button
-              onClick={callNow}
+              href={`tel:${PHONE_E164}`}
               color="primary"
               variant="contained"
               size="small"
@@ -186,8 +180,11 @@ export function Header(props) {
             >
               {!compact && "Call Now"}
             </Button>
+
             <Button
-              onClick={openWhatsApp}
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener"
               color="success"
               variant="contained"
               size="small"
@@ -196,8 +193,11 @@ export function Header(props) {
             >
               {!compact && "WhatsApp"}
             </Button>
+
             <Button
-              onClick={openDirections}
+              href={directionsUrl}
+              target="_blank"
+              rel="noopener"
               color="warning"
               variant="contained"
               size="small"
@@ -210,16 +210,16 @@ export function Header(props) {
         </Toolbar>
       </AppBar>
 
-      {/* Top Drawer (mobile) */}
+      {/* Mobile Drawer (only opens via hamburger) */}
       <Box component="nav">
         <SwipeableDrawer
           container={container}
           variant="temporary"
           open={mobileOpen}
           anchor="top"
-          onOpen={() => {}}
           onClose={handleDrawerToggle}
-          swipeAreaWidth={mobileMatches ? 50 : 0}
+          disableSwipeToOpen   // ⬅ disable swipe
+          swipeAreaWidth={0}   // ⬅ no edge swipe area
           ModalProps={{ keepMounted: true }}
           keepMounted
           sx={s.drawerStyles}
@@ -228,7 +228,7 @@ export function Header(props) {
         </SwipeableDrawer>
       </Box>
 
-      {/* Spacer for fixed AppBar */}
+      {/* Space under fixed header */}
       <Box component="main" sx={{ p: 0 }}>
         <Toolbar sx={{ minHeight: matches ? 56 : 64 }} />
       </Box>
