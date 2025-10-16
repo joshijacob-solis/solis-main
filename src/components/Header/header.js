@@ -31,12 +31,11 @@ export function Header(props) {
   const path = useLocation().pathname;
   const matches = useMediaQuery("(max-width:825px)");
   const compact = useMediaQuery("(max-width:1024px)");
-  const mobileMatches = useMediaQuery("(max-width:500px)");
   const navigate = useNavigate();
 
-  // ---- Contact Info ----
+  // ---- Contact / CTA URLs ----
   const PHONE_E164 = "+918301849474";
-  const WA_NUMBER = "918301849474"; // no +
+  const WA_NUMBER = "918301849474";
   const WA_TEXT = encodeURIComponent("Hi Solis Green Energy, I'd like a solar quote.");
   const DESTINATION =
     "Solis Green Energy Solutions, Mini Kristal Arcade, Muthoor, Thiruvalla 689107";
@@ -110,9 +109,8 @@ export function Header(props) {
         position="fixed"
         sx={(theme) => ({
           ...s.appBarStyles,
-          zIndex: theme.zIndex.modal + 1, // ⬅ ensure header is above everything
+          zIndex: theme.zIndex.modal + 1, // keep header above all overlays
         })}
-        className="app-bar-wrap"
       >
         <Toolbar sx={s.toolBarStyles}>
           {/* Logo */}
@@ -128,14 +126,14 @@ export function Header(props) {
               <img
                 src={Logo}
                 alt="solis-logo"
-                width={matches ? 64 : 92}
-                height={matches ? 64 : 88}
+                width={matches ? 60 : 92}
+                height={matches ? 60 : 88}
                 style={{ objectFit: "contain" }}
               />
             </p>
           </Box>
 
-          {/* Hamburger Menu */}
+          {/* Hamburger (mobile only) */}
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -146,7 +144,7 @@ export function Header(props) {
             <MenuIcon />
           </IconButton>
 
-          {/* Nav Links */}
+          {/* Center nav (hidden on mobile) */}
           <Box sx={s.navLinkBoxStyle}>
             {NavBarLinks.map((item) => (
               <Link
@@ -168,9 +166,10 @@ export function Header(props) {
             ))}
           </Box>
 
-          {/* CTA Buttons — use native links for bulletproof clicks */}
+          {/* CTA group — permanent, also on mobile (icon-only) */}
           <Box sx={s.ctaGroupStyle}>
             <Button
+              className="cta-btn"
               href={`tel:${PHONE_E164}`}
               color="primary"
               variant="contained"
@@ -178,10 +177,10 @@ export function Header(props) {
               startIcon={<PhoneIcon fontSize="small" />}
               sx={s.ctaButton}
             >
-              {!compact && "Call Now"}
+              {!compact && "Call"}
             </Button>
-
             <Button
+              className="cta-btn"
               href={whatsappUrl}
               target="_blank"
               rel="noopener"
@@ -193,8 +192,8 @@ export function Header(props) {
             >
               {!compact && "WhatsApp"}
             </Button>
-
             <Button
+              className="cta-btn"
               href={directionsUrl}
               target="_blank"
               rel="noopener"
@@ -210,7 +209,7 @@ export function Header(props) {
         </Toolbar>
       </AppBar>
 
-      {/* Mobile Drawer (only opens via hamburger) */}
+      {/* Mobile Drawer (opens ONLY on hamburger) */}
       <Box component="nav">
         <SwipeableDrawer
           container={container}
@@ -218,8 +217,8 @@ export function Header(props) {
           open={mobileOpen}
           anchor="top"
           onClose={handleDrawerToggle}
-          disableSwipeToOpen   // ⬅ disable swipe
-          swipeAreaWidth={0}   // ⬅ no edge swipe area
+          disableSwipeToOpen
+          swipeAreaWidth={0}
           ModalProps={{ keepMounted: true }}
           keepMounted
           sx={s.drawerStyles}
@@ -228,7 +227,7 @@ export function Header(props) {
         </SwipeableDrawer>
       </Box>
 
-      {/* Space under fixed header */}
+      {/* Spacer for fixed header */}
       <Box component="main" sx={{ p: 0 }}>
         <Toolbar sx={{ minHeight: matches ? 56 : 64 }} />
       </Box>
