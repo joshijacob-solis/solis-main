@@ -18,23 +18,34 @@ export const HeaderStyles = () => {
       px: mobile ? 1 : 2,
       display: "flex",
       alignItems: "center",
-      justifyContent: "space-between",
+      justifyContent: "center", // center contents; we place hamburger/CTAs absolutely
       gap: "12px",
-      position: "relative", // needed to pin CTAs on mobile
+      position: "relative", // needed for absolute hamburger & CTAs
     },
 
+    // Logo (add left space so it doesn't collide with absolute hamburger)
     logoBoxStyles: {
       display: "flex",
       alignItems: "center",
-      mr: 1,
+      ...(mobile
+        ? { marginLeft: 44 } // space for hamburger (40px button + 4px gap)
+        : { marginLeft: 0 }),
     },
 
-    // Hamburger visible only on mobile
-    iconButtonStyle: {
-      color: "#111",
-      display: mobile ? "inline-flex" : "none",
-      ml: 0.5,
-    },
+    // 🍔 Hamburger: ALWAYS visible on mobile, fixed to left
+    iconButtonStyle: mobile
+      ? {
+          color: "#111",
+          display: "inline-flex",
+          position: "absolute",
+          left: 8,
+          top: "50%",
+          transform: "translateY(-50%)",
+          zIndex: 2, // above anything else in header
+        }
+      : {
+          display: "none",
+        },
 
     // Center nav hidden on mobile
     navLinkBoxStyle: {
@@ -59,8 +70,7 @@ export const HeaderStyles = () => {
       opacity: 1,
     },
 
-    // CTA buttons are permanent.
-    // On mobile: icon-only, pinned at right & vertically centered.
+    // 📞 CTAs: permanent; on mobile pinned right, icon-only
     ctaGroupStyle: mobile
       ? {
           position: "absolute",
@@ -70,13 +80,13 @@ export const HeaderStyles = () => {
           display: "flex",
           alignItems: "center",
           gap: 6,
-          zIndex: 1,
+          zIndex: 2,
         }
       : {
           display: "flex",
           alignItems: "center",
           gap: "8px",
-          ml: "auto",
+          marginLeft: "auto",
         },
 
     ctaButton: {
