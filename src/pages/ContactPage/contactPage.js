@@ -1,233 +1,349 @@
-export const ContactPageStyles = () => {
-  return {
-    // outermost grid wrapper
-    wrapGridStyle: {
-      width: "100%",
-      display: "flex",
-      justifyContent: "center",
-      paddingBottom: 40,
-      boxSizing: "border-box",
-      background: "transparent",
-    },
+import {
+  Box,
+  Grid,
+  Typography,
+  Button,
+  useMediaQuery,
+  Snackbar,
+  Alert,
+} from "@mui/material";
+import { ContactPageStyles } from "./ContactPageStyles";
+import locationIcon from "../../assets/images/locationIcon.png";
+import phoneIcon from "../../assets/images/phoneIcon.png";
+import whatsAppIcon from "../../assets/images/whatsAppIcon.png";
+import gmailIcon from "../../assets/images/gmailIcon.png";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import { useState } from "react";
 
-    // inner container: 3 columns (left card, map, right form)
-    containerGrid: {
-      width: "92%",
-      maxWidth: 1400,
-      display: "grid",
-      gridTemplateColumns: "330px 1fr 330px", // fixed side cards + fluid map
-      gap: 28,
-      alignItems: "stretch", // ensures equal height columns
-      boxSizing: "border-box",
-      margin: "18px auto",
+// Fix for default Leaflet markers
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+});
 
-      // responsive: stack into single column on small screens
-      "@media (max-width:825px)": {
-        gridTemplateColumns: "1fr",
-        padding: "0 12px",
-        gap: 18,
-      },
-    },
+export const ContactPage = () => {
+  const s = ContactPageStyles();
+  const matches = useMediaQuery("(max-width:825px)");
 
-    /* ===== Left Contact Info Box ===== */
-    contactBoxStyle: {
-      background: "#ffffff",
-      borderRadius: 12,
-      minHeight: 760,              // <-- taller card
-      maxHeight: "90vh",
-      overflowY: "auto",
-      boxShadow: "0 10px 28px rgba(0,0,0,0.12)",
-      display: "flex",
-      flexDirection: "column",
-      boxSizing: "border-box",
-      padding: 0,
-    },
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
-    headerBox: {
-      background: "#666",
-      color: "#fff",
-      fontSize: 20,
-      fontWeight: 700,
-      padding: "18px 20px",
-      borderRadius: "12px 12px 0 0",
-    },
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
+    service: "",
+  });
 
-    bodyBox: {
-      padding: 20,
-      flex: "1 1 auto",
-      display: "flex",
-      flexDirection: "column",
-      gap: 12,
-      boxSizing: "border-box",
-    },
+  const solisPosition = [9.395112, 76.5660969];
 
-    typographyStyles: {
-      color: "#111",
-      fontSize: 15,
-      lineHeight: 1.6,
-      marginBottom: 6,
-    },
+  const customIcon = L.icon({
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -40],
+  });
 
-    imageIconStyle: {
-      width: 20,
-      height: 20,
-      verticalAlign: "middle",
-      display: "inline-block",
-    },
+  // 🔹 Contact Actions
+  const composeEmail = () =>
+    window.open(
+      "mailto:solisgreenindia@gmail.com?subject=Inquiry%20-%20Solis%20Green%20Energy"
+    );
 
-    businessHoursBox: {
-      marginTop: 12,
-      background: "rgba(0,0,0,0.03)",
-      padding: 12,
-      borderRadius: 8,
-      width: "100%",
-    },
-
-    businessHoursTitle: {
-      fontWeight: 700,
-      fontSize: 14,
-      marginBottom: 6,
-    },
-
-    businessHoursText: {
-      fontSize: 13,
-      color: "text.secondary",
-      lineHeight: 1.5,
-    },
-
-    /* ===== Center Map Box ===== */
-    mapBoxStyle: {
-      background: "transparent",
-      borderRadius: 12,
-      minHeight: 760,        // <-- make the map taller to match cards
-      maxHeight: "90vh",
-      overflow: "hidden",
-      boxShadow: "0 10px 28px rgba(0,0,0,0.08)",
-      display: "flex",
-      flexDirection: "column",
-      padding: 0,
-      boxSizing: "border-box",
-    },
-
-    // the inner container around the MapContainer (keeps header + map)
-    mapContainer: {
-      flex: "1 1 auto",
-      height: "100%",         // MapContainer (Leaflet) styled to 100% height
-      minHeight: 760,
-      borderRadius: "0 12px 12px 0",
-      overflow: "hidden",
-      boxSizing: "border-box",
-
-      // ensure Leaflet takes full height; the MapContainer inline style in your component will keep it full
-      "& .leaflet-container": {
-        height: "100% !important",
-        width: "100% !important",
-      },
-    },
-
-    /* ===== Right Form Box ===== */
-    formBoxStyle: {
-      background: "#fff",
-      borderRadius: 12,
-      minHeight: 760,      // <-- match height of left card & map
-      maxHeight: "90vh",
-      overflowY: "auto",
-      display: "flex",
-      flexDirection: "column",
-      boxShadow: "0 10px 28px rgba(0,0,0,0.12)",
-      padding: 0,
-      boxSizing: "border-box",
-    },
-
-    headerBoxOrange: {
-      background: "#ff6a00",
-      color: "#fff",
-      fontSize: 20,
-      fontWeight: 700,
-      padding: "18px 20px",
-      borderRadius: "12px 12px 0 0",
-    },
-
-    formBodyBox: {
-      padding: 20,
-      display: "flex",
-      flexDirection: "column",
-      gap: 12,
-      boxSizing: "border-box",
-      flex: "1 1 auto",
-    },
-
-    inputStyle: {
-      width: "100%",
-      padding: "12px 14px",
-      borderRadius: 8,
-      border: "1px solid rgba(0,0,0,0.12)",
-      fontSize: 15,
-      boxSizing: "border-box",
-      outline: "none",
-      "::placeholder": { color: "rgba(0,0,0,0.4)" },
-    },
-
-    selectStyle: {
-      width: "100%",
-      padding: "12px 14px",
-      borderRadius: 8,
-      border: "1px solid rgba(0,0,0,0.12)",
-      fontSize: 15,
-      boxSizing: "border-box",
-      background: "#fff",
-    },
-
-    textareaStyle: {
-      width: "100%",
-      padding: "12px 14px",
-      borderRadius: 8,
-      border: "1px solid rgba(0,0,0,0.12)",
-      fontSize: 15,
-      resize: "vertical",
-      minHeight: 110,
-      boxSizing: "border-box",
-    },
-
-    submitButtonStyle: {
-      marginTop: 6,
-      padding: "12px 14px",
-      borderRadius: 8,
-      backgroundColor: "#ff6a00",
-      color: "#fff",
-      fontWeight: 700,
-      "&:hover": { backgroundColor: "#e65a00" },
-    },
-
-    /* ===== Responsive adjustments (mobile) ===== */
-    // Note: these override minHeight to prevent overwhelming small screens
-    "@media (max-width:825px)": {
-      contactBoxStyle: {
-        minHeight: 420,
-        maxHeight: "none",
-      },
-      mapBoxStyle: {
-        minHeight: 420,
-        maxHeight: "none",
-      },
-      formBoxStyle: {
-        minHeight: 420,
-        maxHeight: "none",
-      },
-      mapContainer: {
-        minHeight: 420,
-      },
-    },
-
-    // optional tiny-screen tweak
-    "@media (max-width:420px)": {
-      containerGrid: {
-        width: "96%",
-        gap: 12,
-      },
-      headerBox: { fontSize: 18 },
-      headerBoxOrange: { fontSize: 18 },
-      inputStyle: { fontSize: 14 },
-    },
+  const openWhatsApp = () => {
+    const message =
+      "Hello, I'm interested in Solar solutions from Solis Green Energy.";
+    const url = `https://${
+      matches ? "api" : "web"
+    }.whatsapp.com/send?phone=+918301849474&text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
   };
+
+  const openDialer = () => window.open("tel:+918301849474");
+
+  // 🔹 Form Handling
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.name.trim() || !formData.phone.trim()) {
+      setSnackbar({
+        open: true,
+        message: "Please fill in all required fields",
+        severity: "error",
+      });
+      return;
+    }
+
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(formData.phone.replace(/\D/g, ""))) {
+      setSnackbar({
+        open: true,
+        message: "Please enter a valid 10-digit phone number",
+        severity: "error",
+      });
+      return;
+    }
+
+    try {
+      console.log("Form submitted:", formData);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      setSnackbar({
+        open: true,
+        message: "Thank you! We'll contact you shortly.",
+        severity: "success",
+      });
+
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        message: "",
+        service: "",
+      });
+    } catch (error) {
+      setSnackbar({
+        open: true,
+        message: "Something went wrong. Please try again.",
+        severity: "error",
+      });
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
+
+  return (
+    <Grid sx={s.wrapGridStyle}>
+      <Box sx={s.containerGrid}>
+        {/* 🔸 1️⃣ CONTACT INFO BOX */}
+        <Box sx={s.contactBoxStyle}>
+          <Box sx={s.headerBox}>Get In Touch</Box>
+          <Box sx={s.bodyBox}>
+            <Typography variant="h6" sx={s.typographyStyles}>
+              <img
+                src={locationIcon}
+                style={s.imageIconStyle}
+                alt="location"
+              />
+              <Box component="span" sx={{ marginLeft: 1 }}>
+                <b>Solis Green Energy Solutions</b>
+              </Box>
+            </Typography>
+
+            <Typography sx={s.typographyStyles}>
+              Mini Kristal Arcade, Muthoor P.O, Thiruvalla,
+              <br />
+              Pathanamthitta, Kerala
+              <br />
+              Pin: <b>689107</b>
+            </Typography>
+
+            <Box sx={{ mt: 2 }}>
+              <Typography
+                sx={{
+                  ...s.typographyStyles,
+                  "&:hover": { color: "#1976d2" },
+                }}
+                onClick={composeEmail}
+              >
+                <img src={gmailIcon} style={s.imageIconStyle} alt="email" />
+                <Box component="span" sx={{ marginLeft: 1 }}>
+                  <b>Email:</b> solisgreenindia@gmail.com
+                </Box>
+              </Typography>
+
+              <Typography
+                sx={{
+                  ...s.typographyStyles,
+                  "&:hover": { color: "#25D366" },
+                }}
+                onClick={openWhatsApp}
+              >
+                <img
+                  src={whatsAppIcon}
+                  style={s.imageIconStyle}
+                  alt="whatsapp"
+                />
+                <Box component="span" sx={{ marginLeft: 1 }}>
+                  <b>WhatsApp:</b> +91 83018 49474
+                </Box>
+              </Typography>
+
+              <Typography
+                sx={{
+                  ...s.typographyStyles,
+                  "&:hover": { color: "#1976d2" },
+                }}
+                onClick={openDialer}
+              >
+                <img src={phoneIcon} style={s.imageIconStyle} alt="phone" />
+                <Box component="span" sx={{ marginLeft: 1 }}>
+                  <b>Phone:</b> +91 83018 49474
+                </Box>
+              </Typography>
+            </Box>
+
+            {/* Business Hours Section */}
+            <Box sx={s.businessHoursBox}>
+              <Typography sx={s.businessHoursTitle}>
+                Business Hours
+              </Typography>
+              <Typography sx={s.businessHoursText}>
+                Monday - Saturday: 9:00 AM - 6:00 PM
+                <br />
+                Sunday: Closed
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+
+        {/* 🔸 2️⃣ MAP BOX */}
+        <Box sx={s.mapBoxStyle}>
+          <Box sx={s.headerBox}>Our Location</Box>
+          <Box sx={s.mapContainer}>
+            <MapContainer
+              center={solisPosition}
+              zoom={15}
+              style={{
+                height: "100%",
+                width: "100%",
+                borderRadius: "0 0 20px 20px",
+              }}
+              scrollWheelZoom={true}
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Marker position={solisPosition} icon={customIcon}>
+                <Popup>
+                  <strong>Solis Green Energy Solutions</strong>
+                  <br />
+                  Mini Kristal Arcade
+                  <br />
+                  Thiruvalla, Kerala 689107
+                </Popup>
+              </Marker>
+            </MapContainer>
+          </Box>
+        </Box>
+
+        {/* 🔸 3️⃣ CONTACT FORM BOX */}
+        <Box sx={s.formBoxStyle}>
+          <Box sx={s.headerBoxOrange}>Free Solar Consultation</Box>
+          <Box component="form" onSubmit={handleSubmit} sx={s.formBodyBox}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name *"
+              required
+              style={s.inputStyle}
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Phone Number *"
+              required
+              style={s.inputStyle}
+              value={formData.phone}
+              onChange={handleInputChange}
+            />
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              style={s.inputStyle}
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+
+            <select
+              name="service"
+              style={s.selectStyle}
+              value={formData.service}
+              onChange={handleInputChange}
+            >
+              <option value="">Select Service Interest</option>
+              <option value="residential">Residential Solar</option>
+              <option value="commercial">Commercial Solar</option>
+              <option value="industrial">Industrial Solar</option>
+              <option value="water-pumps">Solar Water Pumps</option>
+              <option value="street-lights">Solar Street Lights</option>
+              <option value="other">Other</option>
+            </select>
+
+            <textarea
+              name="message"
+              placeholder="Tell us about your solar requirements..."
+              style={s.textareaStyle}
+              value={formData.message}
+              onChange={handleInputChange}
+              rows={4}
+            ></textarea>
+
+            <Button
+              type="submit"
+              variant="contained"
+              sx={s.submitButtonStyle}
+              fullWidth
+            >
+              Get Free Consultation
+            </Button>
+
+            <Typography
+              variant="caption"
+              sx={{
+                display: "block",
+                textAlign: "center",
+                mt: 1,
+                color: "text.secondary",
+              }}
+            >
+              We'll contact you within 24 hours
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Snackbar Notifications */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+    </Grid>
+  );
 };
