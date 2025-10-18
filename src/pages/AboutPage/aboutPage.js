@@ -4,17 +4,17 @@ import About1 from "../../assets/images/about1.jpg";
 import About2 from "../../assets/images/about2.jpg";
 import About3 from "../../assets/images/about3.jpg";
 import "./aboutPage.css";
+
 export const AboutPage = () => {
   return (
     <div className="aboutPage">
-      <div
-        className="aboutTop"
-      >
+      <div className="aboutTop">
         <div className="aboutTitleImage">
           <img src={AboutBg} alt="about-img" />
-
         </div>
+
         <div className="whoAreWeTitle">Our Mission</div>
+
         <div className="whoAreWeInfo">
           <p>
             Our goal is to streamline the process of transitioning to solar
@@ -23,6 +23,7 @@ export const AboutPage = () => {
           </p>
         </div>
       </div>
+
       <div className="aboutOurStory">
         <h1>Our Story</h1>
         <div className="aboutOurStoryInfo">
@@ -33,7 +34,8 @@ export const AboutPage = () => {
             and technicians design and engineer the systems to meet the specific
             needs of each customer, and our skilled installers ensure that the
             systems are installed to the highest standards.
-            <br></br>We believe that everyone should have access to clean and
+            <br />
+            We believe that everyone should have access to clean and
             affordable energy, and we work hard to make our Solar PV Systems
             accessible to all. Our team provides expert consultation,
             installation and maintenance services, as well as financing options
@@ -41,6 +43,7 @@ export const AboutPage = () => {
           </p>
         </div>
       </div>
+
       <div className="aboutFactoryImages">
         <div
           className="factoryImage1"
@@ -55,6 +58,7 @@ export const AboutPage = () => {
           style={{ backgroundImage: `url(${About3})` }}
         ></div>
       </div>
+
       <div className="aboutOurStoryInfo">
         <p>
           We are proud to have a strong track record of over a hundred satisfied customers
@@ -66,7 +70,6 @@ export const AboutPage = () => {
           Contact Solis Green Energy Solutions today to schedule your free consultation and
           take the first step toward a cleaner, more energy-independent future for your home
           or business.
-        </p>
         </p>
       </div>
     </div>
