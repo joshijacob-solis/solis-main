@@ -1,115 +1,76 @@
-/* ===========================
-   Contact section sizing & layout
-   Paste this at the end of aboutPage.css
-   =========================== */
+import React from "react";
+import AboutBg from "../../assets/images/aboutTopBg (2).png";
+import About1 from "../../assets/images/about1.jpg";
+import About2 from "../../assets/images/about2.jpg";
+import About3 from "../../assets/images/about3.jpg";
+import "./aboutPage.css";
 
-/* Container that wraps both left (contact info) and right (form) */
-.contact-section,
-#contact,
-.section-contact {
-  /* ensure outer wrapper fills width and allows height control */
-  width: 100%;
-  display: flex;
-  justify-content: center; /* center content horizontally */
-  padding: 40px 20px;
-  box-sizing: border-box;
-}
+export const AboutPage = () => {
+  return (
+    <div className="aboutPage">
+      <div className="aboutTop">
+        <div className="aboutTitleImage">
+          <img src={AboutBg} alt="about-img" />
+        </div>
+        <div className="whoAreWeTitle">Our Mission</div>
+        <div className="whoAreWeInfo">
+          <p>
+            Our goal is to streamline the process of transitioning to solar
+            energy through technology-driven solutions, reducing friction and
+            creating a seamless customer experience.
+          </p>
+        </div>
+      </div>
 
-/* inner wrapper holding the two boxes side-by-side */
-.contact-wrapper {
-  display: flex;
-  gap: 32px;            /* space between left and right */
-  width: 90%;
-  max-width: 1200px;
-  align-items: stretch; /* make both columns equal height */
-  box-sizing: border-box;
-}
+      <div className="aboutOurStory">
+        <h1>Our Story</h1>
+        <div className="aboutOurStoryInfo">
+          <p>
+            At Solis Green Energy, we understand the importance of clean and
+            renewable energy and are dedicated to providing the highest quality
+            Solar PV Systems on the market. Our team of experienced engineers
+            and technicians design and engineer the systems to meet the specific
+            needs of each customer, and our skilled installers ensure that the
+            systems are installed to the highest standards.
+            <br />
+            We believe that everyone should have access to clean and affordable
+            energy, and we work hard to make our Solar PV Systems accessible to
+            all. Our team provides expert consultation, installation and
+            maintenance services, as well as financing options to make the
+            systems more affordable for our customers.
+          </p>
+        </div>
+      </div>
 
-/* Left box (Contact Us info) */
-.contact-info,
-.contact-box-left,
-.contact-us-box {
-  width: 48%;
-  min-width: 300px;
-  /* Use min-height so it grows if content grows, but stays tall by default */
-  min-height: 520px;             /* <-- increase to make box longer */
-  max-height: calc(100vh - 180px); /* fits inside viewport with header/footer */
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-  padding: 24px;
-  box-sizing: border-box;
-  overflow-y: auto;             /* scroll if content exceeds max-height */
-}
+      <div className="aboutFactoryImages">
+        <div
+          className="factoryImage1"
+          style={{ backgroundImage: `url(${About1})` }}
+        ></div>
+        <div
+          className="factoryImage2"
+          style={{ backgroundImage: `url(${About2})` }}
+        ></div>
+        <div
+          className="factoryImage3"
+          style={{ backgroundImage: `url(${About3})` }}
+        ></div>
+      </div>
 
-/* Right box (Request a Callback form) */
-.contact-form,
-.callback-form,
-.contact-box-right {
-  width: 48%;
-  min-width: 300px;
-  min-height: 520px;             /* <-- match left box */
-  max-height: calc(100vh - 180px);
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-  padding: 24px;
-  box-sizing: border-box;
-  overflow-y: auto;              /* scroll inputs if needed on small screens */
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-/* make form fields inside take full width and align properly */
-.contact-form form,
-.callback-form form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-/* subtle scrollbar styling for desktop */
-.contact-info::-webkit-scrollbar,
-.contact-form::-webkit-scrollbar {
-  width: 10px;
-}
-.contact-info::-webkit-scrollbar-thumb,
-.contact-form::-webkit-scrollbar-thumb {
-  border-radius: 6px;
-  background: rgba(0,0,0,0.12);
-}
-.contact-info::-webkit-scrollbar-track,
-.contact-form::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* ===== equal height fallback for non-flex contexts ===== */
-.contact-info .inner,
-.contact-form .inner {
-  height: 100%;
-}
-
-/* ===== Responsive: stack on small screens ===== */
-@media (max-width: 900px) {
-  .contact-wrapper {
-    flex-direction: column;
-    gap: 18px;
-  }
-  .contact-info,
-  .contact-form {
-    width: 100%;
-    min-height: 420px;            /* keep them tall but not huge on mobile */
-    max-height: none;
-  }
-}
-
-/* ===== Optional: make header part of left/right boxes stand out ===== */
-.contact-info .box-header,
-.contact-form .box-header {
-  font-size: 1.35rem;
-  font-weight: 700;
-  margin-bottom: 12px;
-  color: #333;
-}
+      <div className="aboutOurStoryInfo">
+        <p>
+          We are proud to have a strong track record of over a hundred satisfied
+          customers in Thiruvalla, and the wider Pathanamthitta region. Known
+          for our experienced staff and commitment to quality solar solutions,
+          we’re here to help you achieve real savings on your energy bills and
+          make a positive impact on the environment.
+        </p>
+        <p>
+          Contact Solis Green Energy Solutions today to schedule your free
+          consultation and take the first step toward a cleaner, more
+          energy-independent future for your home or business.
+        </p>
+      </div>
+    </div>
+  );
+};
