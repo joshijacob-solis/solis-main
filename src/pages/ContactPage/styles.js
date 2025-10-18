@@ -4,10 +4,10 @@ export const ContactPageStyles = () => {
   const isMobile = useMediaQuery("(max-width:825px)");
   const isTablet = useMediaQuery("(max-width:1024px)");
 
-  // Dynamic heights based on screen size
-  const CONTACT_HEIGHT = isMobile ? "auto" : "720px";
-  const MAP_HEIGHT = isMobile ? "400px" : "850px";
-  const FORM_HEIGHT = isMobile ? "auto" : "720px";
+  // Dynamic heights based on screen size (increased for more visual presence)
+  const CONTACT_HEIGHT = isMobile ? "auto" : "820px";
+  const MAP_HEIGHT = isMobile ? "420px" : "900px";
+  const FORM_HEIGHT = isMobile ? "auto" : "820px";
 
   // Colors
   const colors = {
@@ -47,12 +47,12 @@ export const ContactPageStyles = () => {
     containerGrid: {
       display: "flex",
       flexDirection: isMobile ? "column" : "row",
-      width: isMobile ? "95%" : isTablet ? "90%" : "85%",
-      maxWidth: "1400px",
+      width: isMobile ? "95%" : isTablet ? "92%" : "88%",
+      maxWidth: "1500px",
       justifyContent: "space-between",
-      alignItems: "stretch",
-      gap: isMobile ? "20px" : "25px",
-      flexWrap: "wrap",
+      alignItems: "stretch", // ensures children stretch to same height
+      gap: isMobile ? "18px" : "26px",
+      flexWrap: "nowrap",
     },
 
     // 🔹 Common Header Styles
@@ -79,7 +79,7 @@ export const ContactPageStyles = () => {
     contactBoxStyle: {
       backgroundColor: colors.white,
       borderRadius: "20px",
-      width: isMobile ? "100%" : isTablet ? "48%" : "32%",
+      width: isMobile ? "100%" : isTablet ? "34%" : "30%",
       height: CONTACT_HEIGHT,
       minHeight: isMobile ? "500px" : "auto",
       boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
@@ -104,7 +104,7 @@ export const ContactPageStyles = () => {
       cursor: "pointer",
       transition: "all 0.2s ease-in-out",
       lineHeight: 1.5,
-      "&:hover": { 
+      "&:hover": {
         color: colors.primary,
         transform: "translateX(4px)",
       },
@@ -117,19 +117,21 @@ export const ContactPageStyles = () => {
       marginTop: "2px",
     },
 
-    // 🔹 2️⃣ Map Box (taller)
+    // 🔹 2️⃣ Map Box (taller & slightly wider on desktop)
     mapBoxStyle: {
-      backgroundColor: colors.white,
+      backgroundColor: "transparent",
       borderRadius: "20px",
-      width: isMobile ? "100%" : isTablet ? "48%" : "32%",
+      width: isMobile ? "100%" : isTablet ? "32%" : "40%",
       height: MAP_HEIGHT,
-      boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+      boxShadow: "0 8px 24px rgba(0,0,0,0.10)",
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
       transition: "all 0.3s ease-in-out",
       "&:hover": !isMobile && hoverEffect,
       order: isMobile ? 1 : 2, // Ensure proper order on mobile
+      // keep map visually centered
+      alignItems: "stretch",
     },
     mapContainer: {
       flex: 1,
@@ -137,13 +139,18 @@ export const ContactPageStyles = () => {
       width: "100%",
       borderRadius: "0 0 20px 20px",
       overflow: "hidden",
+      boxSizing: "border-box",
+      "& .leaflet-container": {
+        height: "100% !important",
+        width: "100% !important",
+      },
     },
 
     // 🔹 3️⃣ Form Box
     formBoxStyle: {
       backgroundColor: colors.white,
       borderRadius: "20px",
-      width: isMobile ? "100%" : isTablet ? "100%" : "32%",
+      width: isMobile ? "100%" : isTablet ? "34%" : "30%",
       height: FORM_HEIGHT,
       minHeight: isMobile ? "500px" : "auto",
       boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
@@ -185,7 +192,7 @@ export const ContactPageStyles = () => {
       fontSize: isMobile ? "14px" : "15px",
       outline: "none",
       width: "100%",
-      minHeight: "120px",
+      minHeight: "140px",
       resize: "vertical",
       transition: "all 0.2s ease-in-out",
       backgroundColor: colors.background,
@@ -247,6 +254,32 @@ export const ContactPageStyles = () => {
       fontSize: "13px",
       color: colors.textLight,
       lineHeight: 1.6,
+    },
+
+    // ===== Mobile overrides to prevent overly tall boxes on small screens =====
+    "@media (max-width:825px)": {
+      contactBoxStyle: {
+        height: "auto",
+        minHeight: "480px",
+      },
+      mapBoxStyle: {
+        height: "420px",
+        minHeight: "420px",
+      },
+      formBoxStyle: {
+        height: "auto",
+        minHeight: "480px",
+      },
+    },
+
+    "@media (max-width:420px)": {
+      containerGrid: {
+        width: "96%",
+        gap: 12,
+      },
+      headerBox: { fontSize: 18 },
+      headerBoxOrange: { fontSize: 18 },
+      inputStyle: { fontSize: 14 },
     },
   };
 };
