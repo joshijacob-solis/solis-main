@@ -6,10 +6,9 @@ export const ContactPageStyles = () => {
   const isTablet = useMediaQuery("(max-width:1024px)");
 
   // Dynamic heights (kept relative; actual enforced by inline overrides in component)
-  const CONTACT_HEIGHT = isMobile ? "auto" : "820px";
-  const MAP_HEIGHT = isMobile ? "420px" : "900px";
-  const FORM_HEIGHT = isMobile ? "auto" : "820px";
-
+  const CONTACT_HEIGHT = isMobile ? "auto" : "1200px";
+  const MAP_HEIGHT = isMobile ? "420px" : "1200px";
+  const FORM_HEIGHT = isMobile ? "auto" : "1200px";
   const colors = {
     primary: "#ff6a00",
     primaryHover: "#e85e00",
