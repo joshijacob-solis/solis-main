@@ -1,14 +1,14 @@
-// ContactPageStyles.js
 import { useMediaQuery } from "@mui/material";
 
 export const ContactPageStyles = () => {
   const isMobile = useMediaQuery("(max-width:825px)");
   const isTablet = useMediaQuery("(max-width:1024px)");
 
-  // Dynamic heights (kept relative; actual enforced by inline overrides in component)
+  // 📏 Taller layout for desktop view
   const CONTACT_HEIGHT = isMobile ? "auto" : "1200px";
   const MAP_HEIGHT = isMobile ? "420px" : "1200px";
   const FORM_HEIGHT = isMobile ? "auto" : "1200px";
+
   const colors = {
     primary: "#ff6a00",
     primaryHover: "#e85e00",
@@ -54,6 +54,7 @@ export const ContactPageStyles = () => {
       flexWrap: "nowrap",
     },
 
+    // 🔹 Common header styles
     headerBox: {
       backgroundColor: colors.secondary,
       color: colors.white,
@@ -73,6 +74,7 @@ export const ContactPageStyles = () => {
       textAlign: "center",
     },
 
+    // 🔸 1️⃣ Contact Box
     contactBoxStyle: {
       backgroundColor: colors.white,
       borderRadius: "20px",
@@ -82,16 +84,18 @@ export const ContactPageStyles = () => {
       boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
       display: "flex",
       flexDirection: "column",
-      overflow: "hidden",
+      overflow: "visible", // 🚫 No scrollbars
+      alignItems: "stretch",
       transition: "all 0.3s ease-in-out",
       "&:hover": !isMobile && hoverEffect,
     },
     bodyBox: {
       padding: isMobile ? "20px" : "24px",
-      flex: 1,
+      flex: "1 1 auto", // ✅ Allow content to define height
       display: "flex",
       flexDirection: "column",
       gap: "16px",
+      overflow: "visible", // ✅ Prevent scrollbars
     },
     typographyStyles: {
       fontSize: isMobile ? "14px" : "15px",
@@ -114,6 +118,7 @@ export const ContactPageStyles = () => {
       marginTop: "2px",
     },
 
+    // 🔸 2️⃣ Map Box
     mapBoxStyle: {
       backgroundColor: "transparent",
       borderRadius: "20px",
@@ -123,10 +128,10 @@ export const ContactPageStyles = () => {
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
+      alignItems: "stretch",
       transition: "all 0.3s ease-in-out",
       "&:hover": !isMobile && hoverEffect,
       order: isMobile ? 1 : 2,
-      alignItems: "stretch",
     },
     mapContainer: {
       flex: 1,
@@ -141,6 +146,7 @@ export const ContactPageStyles = () => {
       },
     },
 
+    // 🔸 3️⃣ Form Box
     formBoxStyle: {
       backgroundColor: colors.white,
       borderRadius: "20px",
@@ -151,6 +157,7 @@ export const ContactPageStyles = () => {
       display: "flex",
       flexDirection: "column",
       overflow: "hidden",
+      alignItems: "stretch",
       transition: "all 0.3s ease-in-out",
       "&:hover": !isMobile && hoverEffect,
       order: isMobile ? 2 : 3,
@@ -163,6 +170,7 @@ export const ContactPageStyles = () => {
       flex: 1,
     },
 
+    // Form Elements
     inputStyle: {
       padding: "12px 14px",
       border: `1px solid ${colors.border}`,
@@ -229,6 +237,7 @@ export const ContactPageStyles = () => {
       },
     },
 
+    // Business Hours
     businessHoursBox: {
       padding: "16px",
       backgroundColor: `${colors.background}80`,
@@ -248,10 +257,12 @@ export const ContactPageStyles = () => {
       lineHeight: 1.6,
     },
 
+    // Responsive tweaks
     "@media (max-width:825px)": {
       contactBoxStyle: {
         height: "auto",
         minHeight: "480px",
+        overflow: "visible",
       },
       mapBoxStyle: {
         height: "420px",
@@ -261,16 +272,6 @@ export const ContactPageStyles = () => {
         height: "auto",
         minHeight: "480px",
       },
-    },
-
-    "@media (max-width:420px)": {
-      containerGrid: {
-        width: "96%",
-        gap: 12,
-      },
-      headerBox: { fontSize: 18 },
-      headerBoxOrange: { fontSize: 18 },
-      inputStyle: { fontSize: 14 },
     },
   };
 };
