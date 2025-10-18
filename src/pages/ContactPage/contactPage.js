@@ -1,4 +1,5 @@
 // ContactPage.js
+import React, { useState } from "react";
 import {
   Box,
   Grid,
@@ -13,21 +14,7 @@ import locationIcon from "../../assets/images/locationIcon.png";
 import phoneIcon from "../../assets/images/phoneIcon.png";
 import whatsAppIcon from "../../assets/images/whatsAppIcon.png";
 import gmailIcon from "../../assets/images/gmailIcon.png";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-import { useState } from "react";
-
-// Fix Leaflet default marker paths
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-});
+import MapBackground from "./map"; // ✅ renamed to match your file name (map.js)
 
 export const ContactPage = () => {
   const s = ContactPageStyles();
@@ -47,15 +34,10 @@ export const ContactPage = () => {
     service: "",
   });
 
-  const solisPosition = [9.395112, 76.5660969];
+  // force equal height for all boxes (desktop)
+  const FORCE_HEIGHT_PX = "1200px";
 
-  const customIcon = L.icon({
-    iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-    popupAnchor: [0, -40],
-  });
-
+  // actions
   const composeEmail = () =>
     window.open(
       "mailto:solisgreenindia@gmail.com?subject=Inquiry%20-%20Solis%20Green%20Energy"
@@ -64,9 +46,7 @@ export const ContactPage = () => {
   const openWhatsApp = () => {
     const message =
       "Hello, I'm interested in Solar solutions from Solis Green Energy.";
-    const url = `https://${
-      matches ? "api" : "web"
-    }.whatsapp.com/send?phone=+918301849474&text=${encodeURIComponent(
+    const url = `https://${matches ? "api" : "web"}.whatsapp.com/send?phone=+918301849474&text=${encodeURIComponent(
       message
     )}`;
     window.open(url, "_blank");
@@ -74,6 +54,7 @@ export const ContactPage = () => {
 
   const openDialer = () => window.open("tel:+918301849474");
 
+  // form handling
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -131,13 +112,10 @@ export const ContactPage = () => {
     setSnackbar({ ...snackbar, open: false });
   };
 
-  // FORCE HEIGHT value (adjust here if you want different size)
-  const FORCE_HEIGHT_PX = "1200px";
-
   return (
     <Grid sx={s.wrapGridStyle}>
       <Box sx={s.containerGrid}>
-        {/* LEFT CONTACT BOX: forced height */}
+        {/* LEFT CONTACT BOX */}
         <Box
           sx={{
             ...s.contactBoxStyle,
@@ -149,11 +127,7 @@ export const ContactPage = () => {
           <Box sx={s.headerBox}>Get In Touch</Box>
           <Box sx={s.bodyBox}>
             <Typography variant="h6" sx={s.typographyStyles}>
-              <img
-                src={locationIcon}
-                style={s.imageIconStyle}
-                alt="location"
-              />
+              <img src={locationIcon} style={s.imageIconStyle} alt="location" />
               <Box component="span" sx={{ marginLeft: 1 }}>
                 <b>Solis Green Energy Solutions</b>
               </Box>
@@ -213,9 +187,7 @@ export const ContactPage = () => {
             </Box>
 
             <Box sx={s.businessHoursBox}>
-              <Typography sx={s.businessHoursTitle}>
-                Business Hours
-              </Typography>
+              <Typography sx={s.businessHoursTitle}>Business Hours</Typography>
               <Typography sx={s.businessHoursText}>
                 Monday - Saturday: 9:00 AM - 6:00 PM
                 <br />
@@ -225,7 +197,7 @@ export const ContactPage = () => {
           </Box>
         </Box>
 
-        {/* MAP BOX: forced same height so center matches */}
+        {/* CENTER MAP BOX */}
         <Box
           sx={{
             ...s.mapBoxStyle,
@@ -237,34 +209,12 @@ export const ContactPage = () => {
         >
           <Box sx={s.headerBox}>Our Location</Box>
           <Box sx={s.mapContainer}>
-            <MapContainer
-              center={solisPosition}
-              zoom={15}
-              style={{
-                height: "100%",
-                width: "100%",
-                borderRadius: "0 0 20px 20px",
-              }}
-              scrollWheelZoom={true}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              <Marker position={solisPosition} icon={customIcon}>
-                <Popup>
-                  <strong>Solis Green Energy Solutions</strong>
-                  <br />
-                  Mini Kristal Arcade
-                  <br />
-                  Thiruvalla, Kerala 689107
-                </Popup>
-              </Marker>
-            </MapContainer>
+            {/* ✅ Map now fully inside box, not background */}
+            <MapBackground zoom={15} brightness={0.97} enableScrollOnDesktop />
           </Box>
         </Box>
 
-        {/* FORM BOX: forced height */}
+        {/* RIGHT FORM BOX */}
         <Box
           sx={{
             ...s.formBoxStyle,
@@ -326,7 +276,7 @@ export const ContactPage = () => {
               value={formData.message}
               onChange={handleInputChange}
               rows={4}
-            ></textarea>
+            />
 
             <Button
               type="submit"
@@ -352,6 +302,7 @@ export const ContactPage = () => {
         </Box>
       </Box>
 
+      {/* Snackbar Notifications */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={6000}
@@ -369,3 +320,5 @@ export const ContactPage = () => {
     </Grid>
   );
 };
+
+export default ContactPage;
