@@ -1,170 +1,115 @@
-/* ===== Base Container ===== */
-.aboutPage {
+/* ===========================
+   Contact section sizing & layout
+   Paste this at the end of aboutPage.css
+   =========================== */
+
+/* Container that wraps both left (contact info) and right (form) */
+.contact-section,
+#contact,
+.section-contact {
+  /* ensure outer wrapper fills width and allows height control */
   width: 100%;
-  min-height: 100vh;
+  display: flex;
+  justify-content: center; /* center content horizontally */
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+/* inner wrapper holding the two boxes side-by-side */
+.contact-wrapper {
+  display: flex;
+  gap: 32px;            /* space between left and right */
+  width: 90%;
+  max-width: 1200px;
+  align-items: stretch; /* make both columns equal height */
+  box-sizing: border-box;
+}
+
+/* Left box (Contact Us info) */
+.contact-info,
+.contact-box-left,
+.contact-us-box {
+  width: 48%;
+  min-width: 300px;
+  /* Use min-height so it grows if content grows, but stays tall by default */
+  min-height: 520px;             /* <-- increase to make box longer */
+  max-height: calc(100vh - 180px); /* fits inside viewport with header/footer */
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  padding: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;             /* scroll if content exceeds max-height */
+}
+
+/* Right box (Request a Callback form) */
+.contact-form,
+.callback-form,
+.contact-box-right {
+  width: 48%;
+  min-width: 300px;
+  min-height: 520px;             /* <-- match left box */
+  max-height: calc(100vh - 180px);
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  padding: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;              /* scroll inputs if needed on small screens */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 120px; /* space for fixed header */
-  overflow-x: hidden;
+  justify-content: flex-start;
 }
 
-/* ===== Hero Section ===== */
-.aboutTop {
+/* make form fields inside take full width and align properly */
+.contact-form form,
+.callback-form form {
   width: 100%;
-  height: 600px;
-  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  overflow: hidden;
+  flex-direction: column;
+  gap: 14px;
 }
 
-/* Image layer */
-.aboutTitleImage {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+/* subtle scrollbar styling for desktop */
+.contact-info::-webkit-scrollbar,
+.contact-form::-webkit-scrollbar {
+  width: 10px;
+}
+.contact-info::-webkit-scrollbar-thumb,
+.contact-form::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: rgba(0,0,0,0.12);
+}
+.contact-info::-webkit-scrollbar-track,
+.contact-form::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ===== equal height fallback for non-flex contexts ===== */
+.contact-info .inner,
+.contact-form .inner {
   height: 100%;
-  z-index: 1;
 }
 
-.aboutTitleImage img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.6); /* darkens for readability */
+/* ===== Responsive: stack on small screens ===== */
+@media (max-width: 900px) {
+  .contact-wrapper {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .contact-info,
+  .contact-form {
+    width: 100%;
+    min-height: 420px;            /* keep them tall but not huge on mobile */
+    max-height: none;
+  }
 }
 
-/* Gradient overlay (makes text pop) */
-.aboutTop::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.3),
-    rgba(0, 0, 0, 0.7)
-  );
-  z-index: 2;
-}
-
-/* Title + info */
-.whoAreWeTitle {
-  position: relative;
-  z-index: 3;
-  color: #fff;
-  font-size: 3rem;
+/* ===== Optional: make header part of left/right boxes stand out ===== */
+.contact-info .box-header,
+.contact-form .box-header {
+  font-size: 1.35rem;
   font-weight: 700;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-  margin-bottom: 10px;
-}
-
-.whoAreWeInfo {
-  position: relative;
-  z-index: 3;
-  color: #f3f4f6;
-  font-size: 1.2rem;
-  width: 70%;
-  max-width: 800px;
-  line-height: 1.6;
-  text-align: center;
-}
-
-/* ===== Story Section ===== */
-.aboutOurStory {
-  width: 90%;
-  max-width: 1100px;
-  margin: 60px 0;
-  text-align: center;
-}
-
-.aboutOurStory h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-}
-
-.aboutOurStoryInfo {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #111;
-  font-weight: 500;
-}
-
-/* ===== Factory Image Grid ===== */
-.aboutFactoryImages {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  width: 90%;
-  max-width: 1100px;
-  margin-bottom: 60px;
-}
-
-.factoryImage1,
-.factoryImage2,
-.factoryImage3 {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 320px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 1024px) {
-  .whoAreWeTitle {
-    font-size: 2.4rem;
-  }
-  .whoAreWeInfo {
-    width: 85%;
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .aboutPage {
-    margin-top: 80px;
-  }
-
-  .aboutTop {
-    height: 480px;
-  }
-
-  .whoAreWeTitle {
-    font-size: 1.8rem;
-  }
-
-  .whoAreWeInfo {
-    width: 90%;
-    font-size: 0.9rem;
-  }
-
-  .aboutFactoryImages {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .factoryImage1,
-  .factoryImage2,
-  .factoryImage3 {
-    height: 220px;
-  }
-}
-
-@media (max-width: 520px) {
-  .aboutFactoryImages {
-    grid-template-columns: 1fr;
-  }
-
-  .aboutOurStory h1 {
-    font-size: 1.8rem;
-  }
-
-  .aboutOurStoryInfo {
-    font-size: 0.9rem;
-    padding: 0 10px;
-  }
+  margin-bottom: 12px;
+  color: #333;
 }
