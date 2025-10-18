@@ -1,4 +1,5 @@
-import React from "react";
+// MapBackground.js
+import React, { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -15,6 +16,41 @@ const customIcon = new L.Icon({
 });
 
 export const MapBackground = () => {
+  const mapRef = useRef(null);
+  const [mapReady, setMapReady] = useState(false);
+
+  // Called by MapContainer when created
+  const handleMapCreated = (mapInstance) => {
+    mapRef.current = mapInstance;
+    setMapReady(true);
+  };
+
+  // Invalidate size on mount and on window resize so Leaflet recalculates tiles
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    const map = mapRef.current;
+
+    // Ensure correct initial rendering
+    setTimeout(() => {
+      map.invalidateSize();
+      map.setView(center, map.getZoom());
+    }, 100); // small delay helps when parent sizing changes during mount
+
+    const onResize = () => {
+      if (!map) return;
+      // invalidate and recentre
+      map.invalidateSize();
+      map.setView(center, map.getZoom());
+    };
+
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, [mapReady]);
+
   return (
     <div
       style={{
@@ -33,16 +69,18 @@ export const MapBackground = () => {
           height: "100%",
           filter: "brightness(97%)", // mild dim for clarity
         }}
-        scrollWheelZoom={false}
-        doubleClickZoom={false}
-        zoomControl={false}
-        dragging={false}
+        // allow scroll wheel zoom for desktop users; set to false if you want to disable
+        scrollWheelZoom={true}
+        // enable standard controls
+        zoomControl={true}
+        // let MapContainer hand you the map instance
+        whenCreated={handleMapCreated}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         />
-        <Marker position={markerCoordinates} icon={customIcon}></Marker>
+        <Marker position={markerCoordinates} icon={customIcon} />
       </MapContainer>
     </div>
   );
