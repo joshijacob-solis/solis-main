@@ -1,15 +1,15 @@
+// ContactPageStyles.js
 import { useMediaQuery } from "@mui/material";
 
 export const ContactPageStyles = () => {
   const isMobile = useMediaQuery("(max-width:825px)");
   const isTablet = useMediaQuery("(max-width:1024px)");
 
-  // Dynamic heights based on screen size (increased for more visual presence)
+  // Dynamic heights (kept relative; actual enforced by inline overrides in component)
   const CONTACT_HEIGHT = isMobile ? "auto" : "820px";
   const MAP_HEIGHT = isMobile ? "420px" : "900px";
   const FORM_HEIGHT = isMobile ? "auto" : "820px";
 
-  // Colors
   const colors = {
     primary: "#ff6a00",
     primaryHover: "#e85e00",
@@ -30,7 +30,7 @@ export const ContactPageStyles = () => {
   const focusStyle = {
     outline: "none",
     borderColor: colors.primary,
-    boxShadow: `0 0 0 3px ${colors.primary}20`, // 20 = 12% opacity
+    boxShadow: `0 0 0 3px ${colors.primary}20`,
   };
 
   return {
@@ -50,12 +50,11 @@ export const ContactPageStyles = () => {
       width: isMobile ? "95%" : isTablet ? "92%" : "88%",
       maxWidth: "1500px",
       justifyContent: "space-between",
-      alignItems: "stretch", // ensures children stretch to same height
+      alignItems: "stretch",
       gap: isMobile ? "18px" : "26px",
       flexWrap: "nowrap",
     },
 
-    // 🔹 Common Header Styles
     headerBox: {
       backgroundColor: colors.secondary,
       color: colors.white,
@@ -75,7 +74,6 @@ export const ContactPageStyles = () => {
       textAlign: "center",
     },
 
-    // 🔹 1️⃣ Contact Box
     contactBoxStyle: {
       backgroundColor: colors.white,
       borderRadius: "20px",
@@ -117,7 +115,6 @@ export const ContactPageStyles = () => {
       marginTop: "2px",
     },
 
-    // 🔹 2️⃣ Map Box (taller & slightly wider on desktop)
     mapBoxStyle: {
       backgroundColor: "transparent",
       borderRadius: "20px",
@@ -129,8 +126,7 @@ export const ContactPageStyles = () => {
       overflow: "hidden",
       transition: "all 0.3s ease-in-out",
       "&:hover": !isMobile && hoverEffect,
-      order: isMobile ? 1 : 2, // Ensure proper order on mobile
-      // keep map visually centered
+      order: isMobile ? 1 : 2,
       alignItems: "stretch",
     },
     mapContainer: {
@@ -146,7 +142,6 @@ export const ContactPageStyles = () => {
       },
     },
 
-    // 🔹 3️⃣ Form Box
     formBoxStyle: {
       backgroundColor: colors.white,
       borderRadius: "20px",
@@ -159,7 +154,7 @@ export const ContactPageStyles = () => {
       overflow: "hidden",
       transition: "all 0.3s ease-in-out",
       "&:hover": !isMobile && hoverEffect,
-      order: isMobile ? 2 : 3, // Ensure proper order on mobile
+      order: isMobile ? 2 : 3,
     },
     formBodyBox: {
       display: "flex",
@@ -169,7 +164,6 @@ export const ContactPageStyles = () => {
       flex: 1,
     },
 
-    // Form Elements
     inputStyle: {
       padding: "12px 14px",
       border: `1px solid ${colors.border}`,
@@ -236,7 +230,6 @@ export const ContactPageStyles = () => {
       },
     },
 
-    // Additional Styles for Business Hours
     businessHoursBox: {
       padding: "16px",
       backgroundColor: `${colors.background}80`,
@@ -256,7 +249,6 @@ export const ContactPageStyles = () => {
       lineHeight: 1.6,
     },
 
-    // ===== Mobile overrides to prevent overly tall boxes on small screens =====
     "@media (max-width:825px)": {
       contactBoxStyle: {
         height: "auto",
