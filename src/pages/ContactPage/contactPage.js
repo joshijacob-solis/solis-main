@@ -1,3 +1,4 @@
+// ContactPage.js
 import {
   Box,
   Grid,
@@ -17,7 +18,7 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useState } from "react";
 
-// Fix for default Leaflet markers
+// Fix Leaflet default marker paths
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -55,7 +56,6 @@ export const ContactPage = () => {
     popupAnchor: [0, -40],
   });
 
-  // 🔹 Contact Actions
   const composeEmail = () =>
     window.open(
       "mailto:solisgreenindia@gmail.com?subject=Inquiry%20-%20Solis%20Green%20Energy"
@@ -74,7 +74,6 @@ export const ContactPage = () => {
 
   const openDialer = () => window.open("tel:+918301849474");
 
-  // 🔹 Form Handling
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -132,11 +131,21 @@ export const ContactPage = () => {
     setSnackbar({ ...snackbar, open: false });
   };
 
+  // FORCE HEIGHT value (adjust here if you want different size)
+  const FORCE_HEIGHT_PX = "820px";
+
   return (
     <Grid sx={s.wrapGridStyle}>
       <Box sx={s.containerGrid}>
-        {/* 🔸 1️⃣ CONTACT INFO BOX */}
-        <Box sx={s.contactBoxStyle}>
+        {/* LEFT CONTACT BOX: forced height */}
+        <Box
+          sx={{
+            ...s.contactBoxStyle,
+            height: FORCE_HEIGHT_PX,
+            minHeight: FORCE_HEIGHT_PX,
+            maxHeight: FORCE_HEIGHT_PX,
+          }}
+        >
           <Box sx={s.headerBox}>Get In Touch</Box>
           <Box sx={s.bodyBox}>
             <Typography variant="h6" sx={s.typographyStyles}>
@@ -203,7 +212,6 @@ export const ContactPage = () => {
               </Typography>
             </Box>
 
-            {/* Business Hours Section */}
             <Box sx={s.businessHoursBox}>
               <Typography sx={s.businessHoursTitle}>
                 Business Hours
@@ -217,8 +225,16 @@ export const ContactPage = () => {
           </Box>
         </Box>
 
-        {/* 🔸 2️⃣ MAP BOX */}
-        <Box sx={s.mapBoxStyle}>
+        {/* MAP BOX: forced same height so center matches */}
+        <Box
+          sx={{
+            ...s.mapBoxStyle,
+            height: FORCE_HEIGHT_PX,
+            minHeight: FORCE_HEIGHT_PX,
+            maxHeight: FORCE_HEIGHT_PX,
+            position: "relative",
+          }}
+        >
           <Box sx={s.headerBox}>Our Location</Box>
           <Box sx={s.mapContainer}>
             <MapContainer
@@ -248,8 +264,15 @@ export const ContactPage = () => {
           </Box>
         </Box>
 
-        {/* 🔸 3️⃣ CONTACT FORM BOX */}
-        <Box sx={s.formBoxStyle}>
+        {/* FORM BOX: forced height */}
+        <Box
+          sx={{
+            ...s.formBoxStyle,
+            height: FORCE_HEIGHT_PX,
+            minHeight: FORCE_HEIGHT_PX,
+            maxHeight: FORCE_HEIGHT_PX,
+          }}
+        >
           <Box sx={s.headerBoxOrange}>Free Solar Consultation</Box>
           <Box component="form" onSubmit={handleSubmit} sx={s.formBodyBox}>
             <input
@@ -329,7 +352,6 @@ export const ContactPage = () => {
         </Box>
       </Box>
 
-      {/* Snackbar Notifications */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={6000}
