@@ -132,7 +132,7 @@ export const ContactPage = () => {
   };
 
   // FORCE HEIGHT value (adjust here if you want different size)
-  const FORCE_HEIGHT_PX = "820px";
+  const FORCE_HEIGHT_PX = "1200px";
 
   return (
     <Grid sx={s.wrapGridStyle}>
