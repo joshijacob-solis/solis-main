@@ -1,55 +1,68 @@
 // MapBackground.js
 import React, { useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import locationIcon from "../../assets/images/locationSolisIcon.png";
 
-// Solis Green Energy Solutions coordinates
-const markerCoordinates = [9.395355443761325, 76.56606470987495];
-const center = [9.395355443761325, 76.56606470987495];
+// Coordinates for Solis
+const MARKER_COORDS = [9.395355443761325, 76.56606470987495];
+const CENTER_COORDS = [9.395355443761325, 76.56606470987495];
 
+// Use your custom location icon
 const customIcon = new L.Icon({
   iconUrl: locationIcon,
   iconSize: [60, 60],
   iconAnchor: [30, 60],
 });
 
-export const MapBackground = () => {
+export const MapBackground = ({
+  zoom = 15,               // default zoom; tweak to taste (13-17 typical)
+  brightness = 0.97,       // 1 = normal; <1 slightly dim; >1 brighter
+  enableScrollOnDesktop = true,
+}) => {
   const mapRef = useRef(null);
   const [mapReady, setMapReady] = useState(false);
 
-  // Called by MapContainer when created
+  // used by MapContainer to hand us the instance
   const handleMapCreated = (mapInstance) => {
     mapRef.current = mapInstance;
     setMapReady(true);
   };
 
-  // Invalidate size on mount and on window resize so Leaflet recalculates tiles
+  // When mounted / when the map instance is ready, invalidate size and recentre.
   useEffect(() => {
     if (!mapRef.current) return;
-
     const map = mapRef.current;
 
-    // Ensure correct initial rendering
-    setTimeout(() => {
-      map.invalidateSize();
-      map.setView(center, map.getZoom());
-    }, 100); // small delay helps when parent sizing changes during mount
+    // Small delay helps if parent sizing transitions or is just applied
+    const t = setTimeout(() => {
+      try {
+        map.invalidateSize();
+        map.setView(CENTER_COORDS, map.getZoom() || zoom);
+      } catch (err) {
+        // sometimes map not fully ready; safe to ignore
+        // console.warn("leaflet size invalidate error", err);
+      }
+    }, 120);
 
+    // Keep map sized when window resizes
     const onResize = () => {
       if (!map) return;
-      // invalidate and recentre
       map.invalidateSize();
-      map.setView(center, map.getZoom());
+      map.setView(CENTER_COORDS, map.getZoom() || zoom);
     };
-
     window.addEventListener("resize", onResize);
 
     return () => {
+      clearTimeout(t);
       window.removeEventListener("resize", onResize);
     };
-  }, [mapReady]);
+  }, [mapReady, zoom]);
+
+  // choose whether to allow scroll wheel zoom based on screen width
+  const isTouchOrSmall = window.innerWidth <= 825;
+  const scrollWheel = isTouchOrSmall ? false : Boolean(enableScrollOnDesktop);
 
   return (
     <div
@@ -57,31 +70,40 @@ export const MapBackground = () => {
         width: "100%",
         height: "100%",
         overflow: "hidden",
-        borderRadius: "0 0 20px 20px", // matches your box radius
+        borderRadius: "0 0 20px 20px",
         zIndex: 2,
+        // keep the map visually inset a little so cards don't visually overlap
+        boxSizing: "border-box",
       }}
     >
       <MapContainer
-        center={center}
-        zoom={14}
+        center={CENTER_COORDS}
+        zoom={zoom}
+        scrollWheelZoom={scrollWheel}
         style={{
           width: "100%",
           height: "100%",
-          filter: "brightness(97%)", // mild dim for clarity
+          filter: `brightness(${brightness})`,
         }}
-        // allow scroll wheel zoom for desktop users; set to false if you want to disable
-        scrollWheelZoom={true}
-        // enable standard controls
-        zoomControl={true}
-        // let MapContainer hand you the map instance
         whenCreated={handleMapCreated}
+        zoomControl={true}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         />
-        <Marker position={markerCoordinates} icon={customIcon} />
+        <Marker position={MARKER_COORDS} icon={customIcon}>
+          <Popup>
+            <strong>Solis Green Energy Solutions</strong>
+            <br />
+            Mini Kristal Arcade
+            <br />
+            Thiruvalla, Kerala 689107
+          </Popup>
+        </Marker>
       </MapContainer>
     </div>
   );
 };
+
+export default MapBackground;
