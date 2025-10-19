@@ -8,9 +8,10 @@ import "./aboutPage.css";
 export const AboutPage = () => {
   return (
     <div className="aboutPage">
+      {/* === Hero Section === */}
       <div className="aboutTop">
         <div className="aboutTitleImage">
-          <img src={AboutBg} alt="about-img" />
+          <img src={AboutBg} alt="about background" />
         </div>
 
         <div className="whoAreWeTitle">Our Mission</div>
@@ -24,6 +25,7 @@ export const AboutPage = () => {
         </div>
       </div>
 
+      {/* === Our Story Section === */}
       <div className="aboutOurStory">
         <h1>Our Story</h1>
         <div className="aboutOurStoryInfo">
@@ -35,15 +37,16 @@ export const AboutPage = () => {
             needs of each customer, and our skilled installers ensure that the
             systems are installed to the highest standards.
             <br />
-            We believe that everyone should have access to clean and
-            affordable energy, and we work hard to make our Solar PV Systems
-            accessible to all. Our team provides expert consultation,
-            installation and maintenance services, as well as financing options
-            to make the systems more affordable for our customers.
+            We believe that everyone should have access to clean and affordable
+            energy, and we work hard to make our Solar PV Systems accessible to
+            all. Our team provides expert consultation, installation and
+            maintenance services, as well as financing options to make the
+            systems more affordable for our customers.
           </p>
         </div>
       </div>
 
+      {/* === Image Grid === */}
       <div className="aboutFactoryImages">
         <div
           className="factoryImage1"
@@ -59,19 +62,23 @@ export const AboutPage = () => {
         ></div>
       </div>
 
+      {/* === Extra Info === */}
       <div className="aboutOurStoryInfo">
         <p>
-          We are proud to have a strong track record of over a hundred satisfied customers
-          in Thiruvalla, and the wider Pathanamthitta region. Known for our experienced staff
-          and commitment to quality solar solutions, we’re here to help you achieve real
-          savings on your energy bills and make a positive impact on the environment.
+          We are proud to have a strong track record of over a hundred satisfied
+          customers in Thiruvalla and the wider Pathanamthitta region. Known for
+          our experienced staff and commitment to quality solar solutions, we’re
+          here to help you achieve real savings on your energy bills and make a
+          positive impact on the environment.
         </p>
         <p>
-          Contact Solis Green Energy Solutions today to schedule your free consultation and
-          take the first step toward a cleaner, more energy-independent future for your home
-          or business.
+          Contact Solis Green Energy Solutions today to schedule your free
+          consultation and take the first step toward a cleaner, more
+          energy-independent future for your home or business.
         </p>
       </div>
     </div>
   );
 };
+
+export default AboutPage;
