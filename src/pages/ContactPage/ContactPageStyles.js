@@ -1,252 +1,126 @@
-import { useMediaQuery } from "@mui/material";
+import React from "react";
+import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
+import { ContactPageStyles } from "./styles";
+import { MapBackground } from "./map";
+import locationIcon from "../../assets/images/locationIcon.png";
+import phoneIcon from "../../assets/images/phoneIcon.png";
+import whatsAppIcon from "../../assets/images/whatsAppIcon.png";
+import gmailIcon from "../../assets/images/gmailIcon.png";
 
-export const ContactPageStyles = () => {
-  const isMobile = useMediaQuery("(max-width:825px)");
-  const isTablet = useMediaQuery("(max-width:1024px)");
-
-  // Dynamic heights
-  const CONTACT_HEIGHT = isMobile ? "auto" : "1200px";
-  const MAP_HEIGHT = isMobile ? "420px" : "1200px";
-  const FORM_HEIGHT = isMobile ? "auto" : "1200px";
-
-  // Colors
-  const colors = {
-    primary: "#ff6a00",
-    primaryHover: "#e85e00",
-    secondary: "#5c5c5c",
-    text: "#333",
-    textLight: "#666",
-    border: "#ddd",
-    background: "#fafafa",
-    white: "#fff",
+export const ContactPage = () => {
+  const contactPageStyle = ContactPageStyles();
+  const emailAddress = "solisgreenenergysolutions@gmail.com";
+  const matches = useMediaQuery("(max-width:825px)");
+  
+  // Contact actions with improved implementation
+  const composeEmail = () => {
+    const subject = "Inquiry - Solis Green Energy Solutions";
+    const body = "Hello, I'm interested in learning more about your solar solutions.";
+    const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.open(mailtoLink, '_blank');
   };
 
-  const hoverEffect = {
-    transform: "translateY(-8px)",
-    boxShadow: "0 16px 30px rgba(0,0,0,0.25)",
-    transition: "all 0.3s ease-in-out",
+  const openWhatsApp = () => {
+    const message = "Hello, I'm interested in Solar solutions from Solis Green Energy.";
+    const phoneNumber = "918301849474"; // Remove spaces for proper formatting
+    const url = `https://${matches ? "api" : "web"}.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
   };
 
-  const focusStyle = {
-    outline: "none",
-    borderColor: colors.primary,
-    boxShadow: `0 0 0 3px ${colors.primary}20`,
+  const openDialer = () => {
+    window.open("tel:+918301849474", "_self");
   };
 
-  return {
-    wrapGridStyle: {
-      width: "100%",
-      minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: colors.background,
-      padding: isMobile ? "20px 0" : "50px 0",
-    },
-
-    containerGrid: {
-      display: "flex",
-      flexDirection: isMobile ? "column" : "row",
-      width: isMobile ? "95%" : isTablet ? "90%" : "85%",
-      maxWidth: "1400px",
-      justifyContent: "space-between",
-      alignItems: "stretch",
-      gap: isMobile ? "20px" : "25px",
-      flexWrap: "wrap",
-    },
-
-    // Header styles
-    headerBox: {
-      backgroundColor: colors.secondary,
-      color: colors.white,
-      fontWeight: 700,
-      fontSize: isMobile ? "18px" : "20px",
-      padding: isMobile ? "12px 16px" : "14px 20px",
-      borderRadius: "20px 20px 0 0",
-      textAlign: "center",
-    },
-    headerBoxOrange: {
-      backgroundColor: colors.primary,
-      color: colors.white,
-      fontWeight: 700,
-      fontSize: isMobile ? "18px" : "20px",
-      padding: isMobile ? "12px 16px" : "14px 20px",
-      borderRadius: "20px 20px 0 0",
-      textAlign: "center",
-    },
-
-    // Contact box
-    contactBoxStyle: {
-      backgroundColor: colors.white,
-      borderRadius: "20px",
-      width: isMobile ? "100%" : isTablet ? "48%" : "32%",
-      height: CONTACT_HEIGHT,
-      boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
-      display: "flex",
-      flexDirection: "column",
-      overflow: "hidden", // ✅ prevents scroll
-      transition: "all 0.3s ease-in-out",
-      "&:hover": !isMobile && hoverEffect,
-    },
-
-    bodyBox: {
-      padding: isMobile ? "20px" : "24px",
-      flex: 1,
-      display: "flex",
-      flexDirection: "column",
-      gap: "16px",
-      overflow: "visible", // ✅ ensures no inner scroll
-    },
-
-    typographyStyles: {
-      fontSize: isMobile ? "14px" : "15px",
-      color: colors.text,
-      display: "flex",
-      alignItems: "flex-start",
-      cursor: "pointer",
-      transition: "all 0.2s ease-in-out",
-      lineHeight: 1.5,
-      "&:hover": { 
-        color: colors.primary,
-        transform: "translateX(4px)",
-      },
-    },
-
-    imageIconStyle: {
-      width: isMobile ? "18px" : "20px",
-      height: isMobile ? "18px" : "20px",
-      marginRight: "8px",
-      flexShrink: 0,
-      marginTop: "2px",
-    },
-
-    // Map box
-    mapBoxStyle: {
-      backgroundColor: colors.white,
-      borderRadius: "20px",
-      width: isMobile ? "100%" : isTablet ? "48%" : "32%",
-      height: MAP_HEIGHT,
-      boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
-      display: "flex",
-      flexDirection: "column",
-      overflow: "hidden",
-      transition: "all 0.3s ease-in-out",
-      "&:hover": !isMobile && hoverEffect,
-      order: isMobile ? 1 : 2,
-    },
-
-    mapContainer: {
-      flex: 1,
-      height: "100%",
-      width: "100%",
-      borderRadius: "0 0 20px 20px",
-      overflow: "hidden",
-    },
-
-    // Form box
-    formBoxStyle: {
-      backgroundColor: colors.white,
-      borderRadius: "20px",
-      width: isMobile ? "100%" : isTablet ? "100%" : "32%",
-      height: FORM_HEIGHT,
-      boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
-      display: "flex",
-      flexDirection: "column",
-      overflow: "hidden",
-      transition: "all 0.3s ease-in-out",
-      "&:hover": !isMobile && hoverEffect,
-      order: isMobile ? 2 : 3,
-    },
-
-    formBodyBox: {
-      display: "flex",
-      flexDirection: "column",
-      gap: "16px",
-      padding: isMobile ? "20px" : "24px",
-      flex: 1,
-    },
-
-    // Form fields
-    inputStyle: {
-      padding: "12px 14px",
-      border: `1px solid ${colors.border}`,
-      borderRadius: "10px",
-      fontSize: isMobile ? "14px" : "15px",
-      outline: "none",
-      width: "100%",
-      backgroundColor: colors.background,
-      transition: "all 0.2s ease-in-out",
-      "&:focus": focusStyle,
-      "&::placeholder": {
-        color: colors.textLight,
-      },
-    },
-
-    textareaStyle: {
-      padding: "12px 14px",
-      border: `1px solid ${colors.border}`,
-      borderRadius: "10px",
-      fontSize: isMobile ? "14px" : "15px",
-      outline: "none",
-      width: "100%",
-      minHeight: "120px",
-      resize: "vertical",
-      backgroundColor: colors.background,
-      fontFamily: "inherit",
-      "&:focus": focusStyle,
-    },
-
-    selectStyle: {
-      padding: "12px 14px",
-      border: `1px solid ${colors.border}`,
-      borderRadius: "10px",
-      fontSize: isMobile ? "14px" : "15px",
-      outline: "none",
-      width: "100%",
-      backgroundColor: colors.background,
-      cursor: "pointer",
-      "&:focus": focusStyle,
-    },
-
-    submitButtonStyle: {
-      backgroundColor: colors.primary,
-      color: colors.white,
-      fontWeight: "bold",
-      fontSize: isMobile ? "15px" : "16px",
-      padding: "14px",
-      borderRadius: "10px",
-      textTransform: "none",
-      boxShadow: "0 6px 16px rgba(255,106,0,0.3)",
-      transition: "all 0.3s ease-in-out",
-      marginTop: "8px",
-      "&:hover": {
-        backgroundColor: colors.primaryHover,
-        transform: "translateY(-3px)",
-        boxShadow: "0 10px 24px rgba(255,106,0,0.4)",
-      },
-      "&:active": {
-        transform: "translateY(-1px)",
-      },
-    },
-
-    // Business Hours
-    businessHoursBox: {
-      padding: "16px",
-      backgroundColor: `${colors.background}80`,
-      borderRadius: "10px",
-      border: `1px solid ${colors.border}40`,
-      marginTop: "8px",
-    },
-    businessHoursTitle: {
-      fontWeight: 700,
-      fontSize: "14px",
-      color: colors.text,
-      marginBottom: "8px",
-    },
-    businessHoursText: {
-      fontSize: "13px",
-      color: colors.textLight,
-      lineHeight: 1.6,
-    },
+  const openGoogleMaps = () => {
+    const mapsLink = `https://www.google.com/maps/place/Solis+Green+Energy+Solutions/@9.3924153,76.5408612,13.65z/data=!4m6!3m5!1s0x3b06258569df22ad:0xf94bd683ad5f7ee2!8m2!3d9.395112!4d76.5660969!16s%2Fg%2F11rr45vzg_?entry=ttu`;
+    window.open(mapsLink, "_blank");
   };
+
+  return (
+    <Grid sx={contactPageStyle.wrapGridStyle}>
+      <MapBackground />
+      <Box sx={contactPageStyle.contactBoxStyle}>
+        <Box sx={contactPageStyle.contactHeaderBox}>
+          Contact Us
+        </Box>
+        <Box sx={contactPageStyle.contactDataBox}>
+          {/* Location Section */}
+          <Box 
+            sx={contactPageStyle.clickableItem}
+            onClick={openGoogleMaps}
+          >
+            <Typography variant="h6" sx={contactPageStyle.typographyStyles}>
+              <img
+                src={locationIcon}
+                style={contactPageStyle.imageIconStyle}
+                alt="location"
+              />
+              &nbsp;&nbsp;<b>Solis Green Energy Solutions</b>
+            </Typography>
+            <Typography sx={contactPageStyle.addressText}>
+              Mini Kristal Arcade<br />
+              Muthoor P.O, Thiruvalla<br />
+              Pathanamthitta, Kerala<br />
+              Pin: <b>689107</b>
+            </Typography>
+          </Box>
+
+          {/* Contact Methods */}
+          <Box sx={contactPageStyle.contactMethods}>
+            <Box sx={contactPageStyle.clickableItem} onClick={composeEmail}>
+              <img
+                src={gmailIcon}
+                style={contactPageStyle.imageIconStyle}
+                alt="email"
+              />
+              &nbsp;&nbsp;
+              <Box>
+                <b>Email:</b><br />
+                solisgreenenergysolutions@gmail.com
+              </Box>
+            </Box>
+
+            <Box sx={contactPageStyle.clickableItem} onClick={openWhatsApp}>
+              <img
+                src={whatsAppIcon}
+                style={contactPageStyle.imageIconStyle}
+                alt="whatsapp"
+              />
+              &nbsp;&nbsp;
+              <Box>
+                <b>WhatsApp:</b><br />
+                +91 83018 49474
+              </Box>
+            </Box>
+
+            <Box sx={contactPageStyle.clickableItem} onClick={openDialer}>
+              <img
+                src={phoneIcon}
+                style={contactPageStyle.imageIconStyle}
+                alt="phone"
+              />
+              &nbsp;&nbsp;
+              <Box>
+                <b>Phone:</b><br />
+                +91 83018 49474
+              </Box>
+            </Box>
+          </Box>
+
+          {/* Business Hours */}
+          <Box sx={contactPageStyle.businessHours}>
+            <Typography sx={contactPageStyle.businessHoursTitle}>
+              Business Hours
+            </Typography>
+            <Typography sx={contactPageStyle.businessHoursText}>
+              Monday - Saturday: 9:00 AM - 6:00 PM<br />
+              Sunday: Closed
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+    </Grid>
+  );
 };
+
+export default ContactPage;
